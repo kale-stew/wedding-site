@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 * {
   font-family: 'Open Sans', sans-serif;
@@ -36,7 +37,7 @@ button:hover {
 
 h1,
 h2 {
-  font-family: 'Cherry Swash', cursive;
+  font-family: 'Great Vibes', cursive;
   margin: 3rem auto 0.5rem auto;
 }
 
@@ -54,17 +55,28 @@ ul {
 }
 
 li {
-  padding-left: 1ch;
+  margin: 0 auto;
+  width: max-content;
 }
 
 p {
-  text-align: center;
   max-width: 70%;
+  margin: 0 auto;
 }
 
 .hero {
   height: 100vh;
   width: 100vw;
+}
+
+.hero h1 {
+  font-size: 84px;
+}
+
+.hero h3 {
+  font-family: 'Great Vibes', cursive;
+  margin: 0 auto;
+  font-size: 34px;
 }
 
 .parallax-image {
@@ -81,6 +93,33 @@ p {
   flex-direction: column;
   width: 100%;
   color: var(--main-text-color);
+  text-align: center;
+}
+
+.content {
+  margin: 25vw auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 0 auto;
+}
+
+.input-style {
+  background-color: transparent;
+  padding: 0.5rem;
+  border: 1px solid var(--main-text-color);
+  border-radius: 5px;
+  font-size: 14px;
+  color: white;
+  margin: 0.5rem auto;
+  width: 70%;
 }
 
 @media (max-width: 1024px) {
