@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Open+Sans:wght@300;400;600;700&display=swap');
+
+* {
+  font-family: 'Open Sans', sans-serif;
+  --main-bg-color: #004d08dc;
+  --main-text-color: #dfdfdf;
+  --accent-color: #ff3ad4d7;
+}
+
+body {
+  margin: 0 0 2rem 0;
+  height: 100%;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+}
+
+a {
+  color: var(--main-text-color);
+}
+
+button {
+  padding: 0.25rem;
+  width: max-content;
+  margin: 0.5rem auto 0 auto;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: transparent;
+  font-weight: 600;
+  color: var(--main-text-color);
+}
+
+button:hover {
+  background-color: var(--accent-color);
+}
+
+h1,
+h2 {
+  font-family: 'Cherry Swash', cursive;
+  margin: 3rem auto 0.5rem auto;
+}
+
+h1 {
+  font-size: 42px;
+}
+
+h2 {
+  font-size: 28px;
+}
+
+ul {
+  padding: 0;
+  list-style-type: '♡';
+}
+
+li {
+  padding-left: 1ch;
+}
+
+p {
+  text-align: center;
+  max-width: 70%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 70vw;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    max-width: 90vw;
+  }
+
+  p {
+    max-width: 90%;
+  }
+}
