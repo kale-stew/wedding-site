@@ -2,8 +2,8 @@
 
 * {
   font-family: 'Open Sans', sans-serif;
-  --main-bg-color: #004d08dc;
-  --main-text-color: #dfdfdf;
+  --main-bg-color: #e7f1fd;
+  --main-text-color: #313131;
   --accent-color: #ff3ad4d7;
 }
 
@@ -62,19 +62,28 @@ p {
   max-width: 70%;
 }
 
-.content {
+.hero {
+  height: 100vh;
+  width: 100vw;
+}
+
+.parallax-image {
+  object-fit: contain;
+  height: 100%;
+  width: 100vw;
+}
+
+.parallax-text {
+  z-index: 200;
+  position: absolute;
+  top: 0;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  margin: 0 auto;
-  max-width: 70vw;
+  width: 100%;
+  color: var(--main-text-color);
 }
 
 @media (max-width: 1024px) {
-  .content {
-    max-width: 90vw;
-  }
-
   p {
     max-width: 90%;
   }
