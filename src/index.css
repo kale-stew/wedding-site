@@ -5,11 +5,11 @@
   font-family: 'Open Sans', sans-serif;
   --main-bg-color: #e7f1fd;
   --main-text-color: #313131;
-  --accent-color: #ff3ad4d7;
+  --accent-color: #465f00;
 }
 
 body {
-  margin: 0 0 2rem 0;
+  margin: 0;
   height: 100%;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
@@ -20,11 +20,11 @@ a {
 }
 
 button {
-  padding: 0.25rem;
+  padding: 0.3rem;
   width: max-content;
   margin: 0.5rem auto 0 auto;
   cursor: pointer;
-  border: none;
+  border: 2px solid var(--accent-color);
   border-radius: 5px;
   background-color: transparent;
   font-weight: 600;
@@ -33,6 +33,7 @@ button {
 
 button:hover {
   background-color: var(--accent-color);
+  color: white;
 }
 
 h1,
@@ -64,6 +65,21 @@ p {
   margin: 0 auto;
 }
 
+.content {
+  margin: 25vw auto 2rem auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 0 auto;
+}
+
 .hero {
   height: 100vh;
   width: 100vw;
@@ -77,6 +93,17 @@ p {
   font-family: 'Great Vibes', cursive;
   margin: 0 auto;
   font-size: 34px;
+}
+
+.input-style {
+  background-color: transparent;
+  padding: 0.5rem;
+  border: 1px solid var(--main-text-color);
+  border-radius: 5px;
+  font-size: 14px;
+  color: white;
+  margin: 0.5rem auto;
+  width: 70%;
 }
 
 .parallax-image {
@@ -96,30 +123,23 @@ p {
   text-align: center;
 }
 
-.content {
-  margin: 25vw auto 0 auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
-
-.contact-form {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-  margin: 0 auto;
-}
-
-.input-style {
-  background-color: transparent;
+footer {
   padding: 0.5rem;
-  border: 1px solid var(--main-text-color);
-  border-radius: 5px;
-  font-size: 14px;
-  color: white;
-  margin: 0.5rem auto;
-  width: 70%;
+  background-color: var(--accent-color);
+  color: var(--main-bg-color);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer a {
+  color: var(--main-bg-color);
+  text-decoration: none;
+  margin: 0 0.5em;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 1024px) {

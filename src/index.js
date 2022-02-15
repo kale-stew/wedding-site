@@ -1,4 +1,5 @@
 import ContactForm from './components/ContactForm'
+import Footer from './components/Footer'
 import ParallaxImage from './photos/mugs.jpeg'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -6,11 +7,6 @@ import { useEffect, useState } from 'react'
 
 import './index.css'
 
-// TODO:
-//  1- Branch this elopement info and make a stand-in "Coming soon..." page
-//      that has an estimated date and parallax image of us two
-//  2- Create a header that populates with anchors on the page
-//  3- Create a footer that links to source
 const WeddingSite = () => {
   const [offset, setOffset] = useState(0)
 
@@ -104,6 +100,7 @@ const WeddingSite = () => {
           wedding photos.
         </p>{' '}
       </section>
+      <Footer />
     </>
   )
 }
