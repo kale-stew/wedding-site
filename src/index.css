@@ -1,14 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Cherry+Swash&family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
 
 * {
   font-family: 'Open Sans', sans-serif;
-  --main-bg-color: #e7f1fd;
+  --main-bg-color: #ffffff;
   --main-text-color: #313131;
-  --accent-color: #ff3ad4d7;
+  --accent-color: #eb7f3f;
 }
 
 body {
-  margin: 0 0 2rem 0;
+  margin: 0;
   height: 100%;
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
@@ -19,11 +20,11 @@ a {
 }
 
 button {
-  padding: 0.25rem;
+  padding: 0.3rem;
   width: max-content;
   margin: 0.5rem auto 0 auto;
   cursor: pointer;
-  border: none;
+  border: 2px solid var(--accent-color);
   border-radius: 5px;
   background-color: transparent;
   font-weight: 600;
@@ -32,20 +33,17 @@ button {
 
 button:hover {
   background-color: var(--accent-color);
+  color: white;
 }
 
 h1,
 h2 {
-  font-family: 'Cherry Swash', cursive;
+  font-family: 'Great Vibes', cursive;
   margin: 3rem auto 0.5rem auto;
 }
 
-h1 {
-  font-size: 42px;
-}
-
 h2 {
-  font-size: 28px;
+  font-size: 2rem;
 }
 
 ul {
@@ -54,23 +52,65 @@ ul {
 }
 
 li {
-  padding-left: 1ch;
+  margin: 0 auto;
+  width: max-content;
 }
 
 p {
-  text-align: center;
   max-width: 70%;
+  margin: 0 auto;
+}
+
+.content {
+  margin: 13vw auto 2rem auto;
+  padding-top: 2rem;
+  z-index: 500;
+  background-color: var(--main-bg-color);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  margin: 0 auto;
 }
 
 .hero {
-  height: 100vh;
+  height: 95vh;
   width: 100vw;
 }
 
+.hero h1 {
+  font-size: 5rem;
+}
+
+.hero h3 {
+  font-family: 'Great Vibes', cursive;
+  margin: 0 auto;
+  font-size: 3rem;
+}
+
+.input-style {
+  background-color: transparent;
+  padding: 0.5rem;
+  border: 1px solid var(--main-text-color);
+  border-radius: 5px;
+  font-size: 14px;
+  color: var(--main-text-color);
+  margin: 0.5rem auto;
+  width: 70%;
+}
+
 .parallax-image {
-  object-fit: contain;
+  object-fit: cover;
   height: 100%;
   width: 100vw;
+  margin-top: 0;
 }
 
 .parallax-text {
@@ -81,6 +121,26 @@ p {
   flex-direction: column;
   width: 100%;
   color: var(--main-text-color);
+  text-align: center;
+}
+
+footer {
+  padding: 0.5rem;
+  background-color: var(--accent-color);
+  color: var(--main-bg-color);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+footer a {
+  color: var(--main-bg-color);
+  text-decoration: none;
+  margin: 0 0.5em;
+}
+
+footer a:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 1024px) {
