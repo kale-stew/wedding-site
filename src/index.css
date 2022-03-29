@@ -101,7 +101,7 @@ p {
   border: 1px solid var(--main-text-color);
   border-radius: 5px;
   font-size: 14px;
-  color: white;
+  color: var(--main-text-color);
   margin: 0.5rem auto;
   width: 70%;
 }
