@@ -80,6 +80,12 @@ p {
   margin: 0 auto;
 }
 
+.gallery-wrapper {
+  max-width: 90vw;
+  min-width: 80vw;
+  margin: 2rem auto;
+}
+
 .hero {
   height: 95vh;
   width: 100vw;

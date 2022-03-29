@@ -1,12 +1,11 @@
+import AllPictures from './photos/images'
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
+import Gallery from 'react-grid-gallery'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { useEffect, useState } from 'react'
-
 import SunriseVows from './photos/sunrise-1.jpeg'
-import SunriseVows2 from './photos/sunrise-2.jpeg'
-import SunriseVows3 from './photos/sunrise-3.jpeg'
+import { useEffect, useState } from 'react'
 
 import './index.css'
 
@@ -94,8 +93,11 @@ const WeddingSite = () => {
         <p>
           The wonderful{' '}
           <a href="https://larsenphoto.co/about/">Nina Larsen Reed</a> took our
-          wedding photos.
+          wedding photos. The following are some of the previews.
         </p>{' '}
+        <div className="gallery-wrapper">
+          <Gallery images={AllPictures} backdropClosesModal={true} />
+        </div>
       </section>
       <Footer />
     </>
