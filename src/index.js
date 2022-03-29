@@ -1,9 +1,12 @@
 import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
-import ParallaxImage from './photos/mugs.jpeg'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { useEffect, useState } from 'react'
+
+import SunriseVows from './photos/sunrise-1.jpeg'
+import SunriseVows2 from './photos/sunrise-2.jpeg'
+import SunriseVows3 from './photos/sunrise-3.jpeg'
 
 import './index.css'
 
@@ -25,36 +28,30 @@ const WeddingSite = () => {
       <section className="hero">
         <img
           className="parallax-image"
-          src={ParallaxImage}
+          src={SunriseVows}
           style={{
             transform: `translateY(${offset * 0.25}px)`,
           }}
         />
         <div className="parallax-text">
           <h1>We Eloped!</h1>
-          <h3>on top of Mount Sniktau</h3>
-          <h3>on March 30th, 2022</h3>
+          <h3>on Monday March 28th, 2022</h3>
         </div>
       </section>
       <section className="content">
         <p style={{ maxWidth: '50%' }}>
           We just couldn't wait! In Colorado, a couple is allowed to
-          self-solemnize and a pet can sign as witness. We hiked up to 13,240'
-          to say our vows, and then Otis signed our Clear Creek County marriage
-          license with us at home in Georgetown, Colorado.
+          self-solemnize and a pet can sign as witness. We hiked up to 12,604'
+          to say our vows at sunrise, and then Otis signed our Clear Creek
+          County marriage license on a walk around the lake with us at home in
+          Georgetown, Colorado.
         </p>
         <h2 id="reception">Future Reception Plans</h2>
         <p>
-          The pandemic was one of our key concerns about hosting a large party,
-          so we're going to wait until you can all travel safely to us to
-          schedule our reception. We want to celebrate with you, our close
-          friends and family, very soon. It will most likely be...
-        </p>
-        <p style={{ marginTop: '1rem' }}>
-          <strong>When:</strong> May 2022
-        </p>
-        <p>
-          <strong>Where:</strong> Cabin Creek Brewery in Georgetown, Colorado
+          We plan on hosting a reception for family in the fall, and an informal
+          celebration for our friends over the summer. You can check back here
+          for that information, but we'll also be sending out invitations as
+          soon as we can.
         </p>
         <h2 id="registry">Send Us a Gift</h2>
         <p>

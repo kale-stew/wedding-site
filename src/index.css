@@ -3,9 +3,9 @@
 
 * {
   font-family: 'Open Sans', sans-serif;
-  --main-bg-color: #e7f1fd;
+  --main-bg-color: #ffffff;
   --main-text-color: #313131;
-  --accent-color: #465f00;
+  --accent-color: #eb7f3f;
 }
 
 body {
@@ -42,12 +42,8 @@ h2 {
   margin: 3rem auto 0.5rem auto;
 }
 
-h1 {
-  font-size: 42px;
-}
-
 h2 {
-  font-size: 28px;
+  font-size: 2rem;
 }
 
 ul {
@@ -66,7 +62,11 @@ p {
 }
 
 .content {
-  margin: 25vw auto 2rem auto;
+  margin: 13vw auto 2rem auto;
+  padding-top: 2rem;
+  z-index: 500;
+  background-color: var(--main-bg-color);
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,18 +81,18 @@ p {
 }
 
 .hero {
-  height: 100vh;
+  height: 95vh;
   width: 100vw;
 }
 
 .hero h1 {
-  font-size: 84px;
+  font-size: 5rem;
 }
 
 .hero h3 {
   font-family: 'Great Vibes', cursive;
   margin: 0 auto;
-  font-size: 34px;
+  font-size: 3rem;
 }
 
 .input-style {
@@ -107,9 +107,10 @@ p {
 }
 
 .parallax-image {
-  object-fit: contain;
+  object-fit: cover;
   height: 100%;
   width: 100vw;
+  margin-top: 0;
 }
 
 .parallax-text {
