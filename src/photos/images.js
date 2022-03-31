@@ -9,11 +9,18 @@ const standardThumbnail = {
 
 const AllPictures = [
   {
-    src: `${urlPrefix}stars.jpeg`,
+    src: `${urlPrefix}stars-1.jpeg`,
     thumbnail: `${urlPrefix}stars.jpeg`,
     thumbnailWidth: standardThumbnail.length,
     thumbnailHeight: standardThumbnail.height,
     caption: `Before sunrise, on our way up the mountain from Loveland Pass. ${photographerCredits}`,
+  },
+  {
+    src: `${urlPrefix}stars-2.jpeg`,
+    thumbnail: `${urlPrefix}stars.jpeg`,
+    thumbnailWidth: standardThumbnail.length,
+    thumbnailHeight: standardThumbnail.height,
+    caption: `Photo by Kyle.`,
   },
   {
     src: `${urlPrefix}sunrise-1.jpeg`,
@@ -132,7 +139,7 @@ const AllPictures = [
     thumbnail: `${urlPrefix}driving-down.jpeg`,
     thumbnailWidth: standardThumbnail.length,
     thumbnailHeight: 225,
-    caption: `Driving back down Loveland Pass. ${photographerCredits}`,
+    caption: `Driving back down Loveland Pass. Photo by Kyle!`,
   },
   {
     src: `${urlPrefix}lake-1.jpeg`,
