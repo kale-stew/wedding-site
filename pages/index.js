@@ -1,11 +1,7 @@
-import WeddingSite from '../src'
+import WeddingSite from '../src/WeddingSiteHome'
 
 const NextWeddingSite = () => {
-  return (
-    <div>
-      <WeddingSite />
-    </div>
-  )
+  return <WeddingSite />
 }
 
 export default NextWeddingSite

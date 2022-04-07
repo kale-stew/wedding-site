@@ -3,7 +3,7 @@ import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import Gallery from 'react-grid-gallery'
 import React from 'react'
-// import ReactDOM from 'react-dom'
+import Image from 'next/image'
 import SunriseVows from './photos/sunrise-1.jpeg'
 import { useEffect, useState } from 'react'
 
@@ -23,12 +23,16 @@ const WeddingSite = () => {
   return (
     <>
       <section className="hero">
-        <img
+        <Image
+          id="heroImg"
           className="parallax-image"
+          priority={true}
           src={SunriseVows}
-          style={{
-            transform: `translateY(${offset * 0.25}px)`,
-          }}
+          alt="Hero Image of Kylie and Kyle saying their vows"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          style={{ transform: `translateY(${offset * 0.25}px)` }}
         />
         <div className="parallax-text">
           <h1>We Eloped!</h1>
