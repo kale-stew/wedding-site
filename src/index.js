@@ -3,11 +3,9 @@ import ContactForm from './components/ContactForm'
 import Footer from './components/Footer'
 import Gallery from 'react-grid-gallery'
 import React from 'react'
-import ReactDOM from 'react-dom'
+// import ReactDOM from 'react-dom'
 import SunriseVows from './photos/sunrise-1.jpeg'
 import { useEffect, useState } from 'react'
-
-import './index.css'
 
 const WeddingSite = () => {
   const [offset, setOffset] = useState(0)
@@ -102,4 +100,6 @@ const WeddingSite = () => {
   )
 }
 
-ReactDOM.render(<WeddingSite />, document.getElementById('root'))
+export default WeddingSite
+
+// ReactDOM.render(<WeddingSite />, document.getElementById('root'))
