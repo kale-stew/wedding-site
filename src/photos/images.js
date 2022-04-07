@@ -10,14 +10,14 @@ const standardThumbnail = {
 const AllPictures = [
   {
     src: `${urlPrefix}stars-1.jpeg`,
-    thumbnail: `${urlPrefix}stars.jpeg`,
+    thumbnail: `${urlPrefix}stars-1.jpeg`,
     thumbnailWidth: standardThumbnail.length,
     thumbnailHeight: standardThumbnail.height,
     caption: `Before sunrise, on our way up the mountain from Loveland Pass. ${photographerCredits}`,
   },
   {
     src: `${urlPrefix}stars-2.jpeg`,
-    thumbnail: `${urlPrefix}stars.jpeg`,
+    thumbnail: `${urlPrefix}stars-2.jpeg`,
     thumbnailWidth: standardThumbnail.length,
     thumbnailHeight: standardThumbnail.height,
     caption: `Photo by Kyle.`,
