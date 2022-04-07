@@ -38,7 +38,7 @@ const WeddingSite = () => {
         </div>
       </section>
       <section className="content">
-        <p style={{ maxWidth: '50%' }}>
+        <p style={{ maxWidth: '70%' }}>
           We just couldn't wait! In Colorado, a couple is allowed to
           self-solemnize and a pet can sign as witness. We hiked up to 12,604'
           to say our vows at sunrise, and then Otis signed our Clear Creek
@@ -52,12 +52,22 @@ const WeddingSite = () => {
           for that information, but we'll also be sending out invitations as
           soon as we can.
         </p>
+        <h2 id="contact">Send Us a Message</h2>
+        <p>
+          If you want to send us a direct message, the form below delivers to
+          our 💌{' '}
+          <a network="email" href="mailto:kylieandkyle22@gmail.com">
+            shared email account
+          </a>
+          .
+        </p>
+        <ContactForm />
         <h2 id="registry">Send Us a Gift</h2>
         <p>
           Your presence at our future reception will be enough! If you still
           want to get us a celebratory gift, we are registered at the following
           websites (and if you'd rather have our physical address, you can ask
-          for it through the contact form <a href="#contact">below</a>):
+          for it through the contact form <a href="#contact">above</a>):
         </p>
         <ul>
           <li>
@@ -77,23 +87,11 @@ const WeddingSite = () => {
             </a>
           </li>
         </ul>
-        <h2 id="contact">Send Us a Message</h2>
-        <p>
-          If you want to send us a direct message, the form below delivers to
-          our 💌{' '}
-          <a network="email" href="mailto:kylieandkyle22@gmail.com">
-            shared email account
-          </a>
-          .
-        </p>
-        <ContactForm />
-        {/* <h2>👫🏼 How We Met</h2> */}
-        {/* <h2>💍 How He Asked</h2> */}
         <h2 id="photos">Photos of Our Wedding Day</h2>
         <p>
           The wonderful{' '}
           <a href="https://larsenphoto.co/about/">Nina Larsen Reed</a> took our
-          wedding photos. The following are some of the previews.
+          wedding photos. The following are some of the previews:
         </p>{' '}
         <div className="gallery-wrapper">
           <Gallery images={AllPictures} backdropClosesModal={true} />

@@ -6,6 +6,7 @@
   --main-bg-color: #ffffff;
   --main-text-color: #313131;
   --accent-color: #eb7f3f;
+  --secondary-accent-color: #7d2100;
 }
 
 body {
@@ -93,12 +94,14 @@ p {
 
 .hero h1 {
   font-size: 5rem;
+  color: var(--secondary-accent-color);
 }
 
 .hero h3 {
   font-family: 'Great Vibes', cursive;
   margin: 0 auto;
   font-size: 3rem;
+  color: var(--secondary-accent-color);
 }
 
 .input-style {
@@ -106,7 +109,7 @@ p {
   padding: 0.5rem;
   border: 1px solid var(--main-text-color);
   border-radius: 5px;
-  font-size: 14px;
+  font-size: 0.9rem;
   color: var(--main-text-color);
   margin: 0.5rem auto;
   width: 70%;
@@ -142,7 +145,7 @@ footer {
 footer a {
   color: var(--main-bg-color);
   text-decoration: none;
-  margin: 0 0.5em;
+  margin: 0 0.5rem;
 }
 
 footer a:hover {
@@ -152,5 +155,33 @@ footer a:hover {
 @media (max-width: 1024px) {
   p {
     max-width: 90%;
+  }
+
+  footer a {
+    margin: 0.1rem 0.5rem;
+  }
+
+  .footer-links {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-wrapper {
+    max-width: 100vw;
+    margin: 2rem 1rem;
+  }
+
+  .parallax-text {
+    max-width: 92%;
+    margin: 0 1rem;
+  }
+
+  .hero h1 {
+    max-width: 100%;
+    font-size: 3.3rem;
+  }
+
+  .hero h3 {
+    font-size: 2.2rem;
   }
 }
