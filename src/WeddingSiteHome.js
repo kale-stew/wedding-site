@@ -6,10 +6,11 @@ import React from 'react'
 import Image from 'next/image'
 import SunriseVows from './photos/sunrise-1.jpeg'
 import { useEffect, useState } from 'react'
+import { fetchAllGuests } from '../notion/notion'
 
-const WeddingSite = () => {
+const WeddingSite = ({ websiteData }) => {
   const [offset, setOffset] = useState(0)
-
+  console.log('PROPS:', websiteData)
   useEffect(() => {
     function handleScroll() {
       setOffset(window.pageYOffset)
@@ -104,6 +105,14 @@ const WeddingSite = () => {
   )
 }
 
-export default WeddingSite
+export async function getStaticProps() {
+  const response = await fetchAllGuests()
+  const websiteData = await response
+  return {
+    props: {
+      websiteData,
+    },
+  }
+}
 
-// ReactDOM.render(<WeddingSite />, document.getElementById('root'))
+export default WeddingSite
