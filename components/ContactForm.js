@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CONTACT_ENDPOINT } from '../constants'
+import { CONTACT_ENDPOINT } from '../utils/constants'
 
 const ContactForm = () => {
   const [status, setStatus] = useState()

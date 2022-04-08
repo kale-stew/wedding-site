@@ -1,36 +1,42 @@
-import AllPictures from './photos/images'
-import ContactForm from './components/ContactForm'
-import Footer from './components/Footer'
+import AllPictures from '../public/photos/images'
+import ContactForm from '../components/ContactForm'
+import Footer from '../components/Footer'
 import Gallery from 'react-grid-gallery'
 import React from 'react'
-import ReactDOM from 'react-dom'
-import SunriseVows from './photos/sunrise-1.jpeg'
+import Image from 'next/image'
+import SunriseVows from '../public/photos/sunrise-1.jpeg'
 import { useEffect, useState } from 'react'
-
-import './index.css'
 
 const WeddingSite = () => {
   const [offset, setOffset] = useState(0)
-
   useEffect(() => {
-    function handleScroll() {
-      setOffset(window.pageYOffset)
+    if (typeof window !== 'undefined') {
+      function handleScroll() {
+        setOffset(window.pageYOffset)
+      }
+      window.addEventListener('scroll', handleScroll)  
     }
-    window.addEventListener('scroll', handleScroll)
+
     return () => {
-      window.removeEventListener('scroll', handleScroll)
+      if(typeof window !== 'undefined') {
+        window.removeEventListener('scroll', handleScroll)
+      }
     }
   }, [])
 
   return (
     <>
       <section className="hero">
-        <img
+        <Image
+          id="heroImg"
           className="parallax-image"
+          priority={true}
           src={SunriseVows}
-          style={{
-            transform: `translateY(${offset * 0.25}px)`,
-          }}
+          alt="Hero Image of Kylie and Kyle saying their vows"
+          layout="fill"
+          objectFit="cover"
+          quality={100}
+          style={{ transform: `translateY(${offset * 0.25}px)` }}
         />
         <div className="parallax-text">
           <h1>We Eloped!</h1>
@@ -106,4 +112,4 @@ const WeddingSite = () => {
   )
 }
 
-ReactDOM.render(<WeddingSite />, document.getElementById('root'))
+export default WeddingSite
