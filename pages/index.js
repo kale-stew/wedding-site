@@ -100,7 +100,11 @@ const WeddingSite = () => {
           wedding photos. The following are some of the previews:
         </p>{' '}
         <div className="gallery-wrapper">
-          <Gallery images={AllPictures} backdropClosesModal={true} />
+          <Gallery
+            images={AllPictures}
+            backdropClosesModal={true}
+            enableImageSelection={false}
+          />
         </div>
       </section>
       <Footer />
