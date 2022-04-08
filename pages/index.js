@@ -14,11 +14,11 @@ const WeddingSite = () => {
       function handleScroll() {
         setOffset(window.pageYOffset)
       }
-      window.addEventListener('scroll', handleScroll)  
+      window.addEventListener('scroll', handleScroll)
     }
 
     return () => {
-      if(typeof window !== 'undefined') {
+      if (typeof window !== 'undefined') {
         window.removeEventListener('scroll', handleScroll)
       }
     }
