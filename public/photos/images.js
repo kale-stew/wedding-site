@@ -1,6 +1,6 @@
 const photographerCredits = 'Photo by Nina Larsen.'
 const urlPrefix =
-  'https://raw.githubusercontent.com/kale-stew/wedding-site/dev/src/photos/'
+  'https://raw.githubusercontent.com/kale-stew/wedding-site/dev/public/photos/'
 
 const standardThumbnail = {
   length: 400,
