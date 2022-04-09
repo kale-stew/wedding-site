@@ -5,9 +5,9 @@
   "scripts": {
     "format": "prettier --write .",
     "dev": "next dev",
+    "export": "next export",
     "build": "next build",
-    "clean": "rm -rf .next",
-    "deploy": "npm run build && gh-pages -d build"
+    "clean": "rm -rf .next"
   },
   "author": "Kylie Stewart <kylie@hey.com>",
   "dependencies": {
