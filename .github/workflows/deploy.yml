@@ -25,7 +25,9 @@ jobs:
           npm i
           npm run build
           npm run export
-
+        env:
+          NOTION_ACCESS_TOKEN: ${{ secrets.NOTION_ACCESS_TOKEN }}
+          WEDDING_GUESTS_DATABASE_ID: ${{ secrets.WEDDING_GUESTS_DATABASE_ID }}
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
