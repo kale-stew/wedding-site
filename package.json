@@ -12,6 +12,7 @@
   "author": "Kylie Stewart <kylie@hey.com>",
   "dependencies": {
     "@notionhq/client": "^1.0.4",
+    "imagemin-mozjpeg": "^10.0.0",
     "next": "12.1.4",
     "next-compose-plugins": "^2.2.1",
     "next-optimized-images": "^2.6.2",
