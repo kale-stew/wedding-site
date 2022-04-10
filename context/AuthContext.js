@@ -1,4 +1,4 @@
-import React, { useState, createContext, useContext } from "react"
+import React, { useState, createContext, useContext } from 'react'
 import { setLocalStorage } from '../utils/localStorage'
 import {
   ENDPOINTS,
@@ -12,12 +12,12 @@ const { LOGIN_WITH_ID, UPDATE_COUNT, LOGIN } = ENDPOINTS
 const AuthContext = createContext()
 
 const AuthProvider = (props) => {
-    const [loadingState, setLoadingState] = useState(DEFAULT)
-    const [loginAttempts, setLoginAttempts] = useState(0)
-    const [user, setUser] = useState(false)
-    const [shouldRedirect, setShouldRedirect] = useState(false)
+  const [loadingState, setLoadingState] = useState(DEFAULT)
+  const [loginAttempts, setLoginAttempts] = useState(0)
+  const [user, setUser] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
-      /**
+  /**
    * Takes the guest object formatted from the notion guest list and sets that user as logged in.
    * Also will set the loading state to SUCCESS.
    * @param {Object} guest in the shape of {
@@ -33,6 +33,32 @@ const AuthProvider = (props) => {
     }
    */
   const setLoggedIn = (guest, token) => {
+    // We have a valid user! Set the state and token
+    setLoadingState(SUCCESS)
+    const {
+      email,
+      firstName,
+      id,
+      lastName,
+      partnerFirstName,
+      partnerLastName,
+      streetAddress,
+      websiteVisits,
+      guestType,
+    } = guest
+    setLoginAttempts(0)
+    setUser({
+      email,
+      firstName,
+      id,
+      lastName,
+      partnerFirstName,
+      partnerLastName,
+      streetAddress,
+      websiteVisits: websiteVisits + 1,
+      guestType,
+    })
+
     // As of now Apr 10th 2022 the token is set to expire in 10 hours
     setLocalStorage(LOCAL_STORAGE_KEYS.TOKEN, token)
   }
@@ -59,7 +85,6 @@ const AuthProvider = (props) => {
    * @returns
    */
   const login = async (pass, component) => {
-    console.log("LOGIN")
     setLoadingState(LOADING)
     // If we want to lock someone out after too many attempts?
     // They could just refresh the page, so we'll have to hoist state, or use local storage or something like that
@@ -78,33 +103,7 @@ const AuthProvider = (props) => {
       })
       const user = await loginResponse.json()
       if (user?.accessToken) {
-        console.log("LOGED IN")
         // We have a valid user! Set the state and token
-        setLoadingState(SUCCESS)
-        const {
-          email,
-          firstName,
-          id,
-          lastName,
-          partnerFirstName,
-          partnerLastName,
-          streetAddress,
-          websiteVisits,
-          guestType,
-        } = user.guest
-        setLoginAttempts(0)
-        setUser({
-          email,
-          firstName,
-          id,
-          lastName,
-          partnerFirstName,
-          partnerLastName,
-          streetAddress,
-          websiteVisits: websiteVisits + 1,
-          guestType,
-        })
-    
         setLoggedIn(user.guest, user.accessToken)
         // Update user's website visit count
         updateVisitCount(user.id)
@@ -150,14 +149,12 @@ const AuthProvider = (props) => {
         body: JSON.stringify({ token, component }),
       })
       const response = await idRequest.json()
-      console.log("ID REQUEST:", response)
       if (
         response.error &&
         response.error?.includes(
           'Unauthorized, logging in as wrong guest type.',
         )
       ) {
-        console.log('in here')
         setShouldRedirect(true)
       }
 
@@ -172,42 +169,13 @@ const AuthProvider = (props) => {
       }
 
       if (!response || !response?.guest || !response?.accessToken) {
-        console.log("in here?")
         setUser(false)
         setLoadingState(DEFAULT)
         return
       }
-      console.log("LOGED IN")
       // We have a valid user! Set the state and token
-      setLoadingState(SUCCESS)
-      const {
-        email,
-        firstName,
-        id,
-        lastName,
-        partnerFirstName,
-        partnerLastName,
-        streetAddress,
-        websiteVisits,
-        guestType,
-      } = response.guest
-      setLoginAttempts(0)
-      setUser({
-        email,
-        firstName,
-        id,
-        lastName,
-        partnerFirstName,
-        partnerLastName,
-        streetAddress,
-        websiteVisits: websiteVisits + 1,
-        guestType,
-      })
-  
-      setLoggedIn(response.guest, response.accessToken)
       // Update user's website visit count
-      updateVisitCount(id)
-
+      updateVisitCount(response.guest.id)
       setLoggedIn(response.guest, response.accessToken)
       return
     } catch (error) {
@@ -215,46 +183,46 @@ const AuthProvider = (props) => {
       setLoadingState(`${ERROR} logging in with id`)
     }
   }
-  
+
   const setShouldRedirectState = (value = false) => {
     setShouldRedirect(value)
   }
-  
-    const value = {
-        loadingState,
-        login,
-        loginWithId,
-        logout,
-        shouldRedirect,
-        setShouldRedirectState,
-        user,
-      }
-    return <AuthContext.Provider value={value} {...props}/>
+
+  const value = {
+    loadingState,
+    login,
+    loginWithId,
+    logout,
+    shouldRedirect,
+    setShouldRedirectState,
+    user,
+  }
+  return <AuthContext.Provider value={value} {...props} />
 }
 
 const useAuthContext = () => {
-    const context = useContext(AuthContext)
-    if(!context) {
-        throw new Error("useAuthContext must be used within an auth provider")
-    }
-    const {
-        loadingState,
-        login,
-        loginWithId,
-        logout,
-        shouldRedirect,
-        setShouldRedirectState,
-        user,
-      } = context
-      return {
-        loadingState,
-        login,
-        loginWithId,
-        logout,
-        shouldRedirect,
-        setShouldRedirectState,
-        user
-      }
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuthContext must be used within an auth provider')
+  }
+  const {
+    loadingState,
+    login,
+    loginWithId,
+    logout,
+    shouldRedirect,
+    setShouldRedirectState,
+    user,
+  } = context
+  return {
+    loadingState,
+    login,
+    loginWithId,
+    logout,
+    shouldRedirect,
+    setShouldRedirectState,
+    user,
+  }
 }
 
-export {AuthProvider, useAuthContext}
+export { AuthProvider, useAuthContext }

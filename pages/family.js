@@ -14,8 +14,13 @@ import ProfileComponent from '../components/ProfileComponent'
 const Family = () => {
   const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
   const router = useRouter()
-  const { loadingState, loginWithId, shouldRedirect, setShouldRedirectState, user } =
-  useAuthContext()
+  const {
+    loadingState,
+    loginWithId,
+    shouldRedirect,
+    setShouldRedirectState,
+    user,
+  } = useAuthContext()
 
   // Log user out if they leave the page ?
   useEffect(() => {

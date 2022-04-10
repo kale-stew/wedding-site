@@ -17,7 +17,7 @@ const {
  */
 export default async (req, res) => {
   const { slug } = req.query
-  console.log("SLUG:", slug)
+  console.log('SLUG:', slug)
   switch (slug) {
     case FRIENDS:
       return res.json({ message: 'friends' })
