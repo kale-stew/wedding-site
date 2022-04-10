@@ -29,6 +29,7 @@ export const ENDPOINTS = {
   FAMILY: 'family',
   FRIENDS: 'friends',
   GUEST_LIST: 'guestlist',
+  LOGIN: 'login',
   LOGIN_WITH_ID: 'idlogin',
   UPDATE_COUNT: 'updatecount',
 }
@@ -47,5 +48,10 @@ export const HTTP_METHODS = {
 }
 
 export const LOCAL_STORAGE_KEYS = {
-  IS_GUEST: 'isGuest',
+  TOKEN: 'token',
 }
+
+/**
+ * String we can use to string.split(SPLIT) on
+ */
+export const SPLIT = ':split:'

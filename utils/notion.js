@@ -72,6 +72,11 @@ const formatFormulaType = (data) => {
   }
 }
 
+/**
+ * Formats the notion API response properties to a useable format
+ * @param {string} property
+ * @returns
+ */
 const fmtNotionProperty = (property) => {
   if (property !== null) {
     switch (property.type) {
@@ -103,8 +108,12 @@ const formatGuestList = (notionGuestList) => {
       id: fmtNotionProperty(guestItem?.properties[ID]),
       lastName: fmtNotionProperty(guestItem?.properties[LAST_NAME]),
       notionId: guestItem?.id,
-      partnerFirstName: fmtNotionProperty(guestItem?.properties[PARTNER_FIRST_NAME]),
-      partnerLastName: fmtNotionProperty(guestItem?.properties[PARTNER_LAST_NAME]),
+      partnerFirstName: fmtNotionProperty(
+        guestItem?.properties[PARTNER_FIRST_NAME],
+      ),
+      partnerLastName: fmtNotionProperty(
+        guestItem?.properties[PARTNER_LAST_NAME],
+      ),
       streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
       websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
     }
@@ -112,6 +121,11 @@ const formatGuestList = (notionGuestList) => {
   })
 }
 
+/**
+ * Gets all of our guests from the notion DB, we should always remember to remove the notionId
+ * from anything we want to return to the front end.
+ * @returns array of formatted guests
+ */
 export const fetchAllGuests = async () => {
   const config = getDatabaseQueryConfig()
   config.sorts = guestSorts
@@ -130,9 +144,14 @@ export const fetchAllGuests = async () => {
   return formatGuestList(responseArray)
 }
 
+/**
+ * Updates a guest's visit count with their id property (not notion id)
+ * @param {string} id
+ * @returns
+ */
 export const updateSiteVisitCount = async (id) => {
   const guestList = await fetchAllGuests()
-  const guestToUpdate = guestList.find((guest) => guest.notionId === id)
+  const guestToUpdate = guestList.find((guest) => guest.id === id)
   if (guestToUpdate?.notionId) {
     const newVisitCount = 1 + guestToUpdate.websiteVisits
     const response = await notion.pages.update({

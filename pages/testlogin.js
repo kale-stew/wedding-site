@@ -1,6 +1,6 @@
 import Loading from '../components/Loading'
-import { LOADING_STATE } from '../utils/constants'
-import { checkLocalStorage } from '../utils/auth'
+import { LOADING_STATE, LOCAL_STORAGE_KEYS } from '../utils/constants'
+import { getLocalStorage, hashPassword } from '../utils/localStorage'
 import { useAuth } from '../hooks/useAuth'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
@@ -8,12 +8,11 @@ import { useRouter } from 'next/router'
 const TestLogin = () => {
   const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
   const router = useRouter()
-  const { hashPass, loadingState, login, loginWithId, logout, user } = useAuth()
+  const { loadingState, login, loginWithId, logout, user } = useAuth()
 
   // Log user out if they leave the page ?
   useEffect(() => {
-    const localStorageItem = checkLocalStorage()
-    console.log('checkLocalStorage', localStorageItem)
+    const localStorageToken = getLocalStorage(LOCAL_STORAGE_KEYS.TOKEN)
 
     const routeChangeStart = (url) => {
       console.log('Starting route change..', url)
@@ -28,8 +27,8 @@ const TestLogin = () => {
     }
     router.events.on('routeChangeStart', routeChangeStart)
 
-    if (localStorageItem) {
-      loginWithId(localStorageItem)
+    if (localStorageToken) {
+      loginWithId(localStorageToken)
     }
     return () => {
       if (typeof window !== 'undefined') {
@@ -59,7 +58,7 @@ const TestLogin = () => {
   }
 
   if (loadingState === LOADING) {
-    return <Loading/>
+    return <Loading />
   }
 
   if (loadingState === LOCK) {
@@ -86,7 +85,7 @@ const TestLogin = () => {
           <form
             onSubmit={(e) => {
               e.preventDefault()
-              hashPass(e.target[0].value)
+              hashPassword(e.target[0].value)
             }}
           >
             String to hash:

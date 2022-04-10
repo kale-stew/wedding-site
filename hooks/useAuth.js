@@ -1,10 +1,29 @@
 import { useState } from 'react'
-import { checkPassword, hashPassword, setLocalStorage } from '../utils/auth'
-import { ENDPOINTS, LOADING_STATE } from '../utils/constants'
+import { hashPassword } from '../utils/auth'
+import { setLocalStorage } from '../utils/localStorage'
+import {
+  ENDPOINTS,
+  HTTP_METHODS,
+  LOADING_STATE,
+  LOCAL_STORAGE_KEYS,
+  SPLIT,
+} from '../utils/constants'
 const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
-const { GUEST_LIST, LOGIN_WITH_ID, UPDATE_COUNT } = ENDPOINTS
+const { LOGIN_WITH_ID, UPDATE_COUNT, LOGIN } = ENDPOINTS
+
+/**
+ * Our custom auth hook that will give loadingState, the user object, and three functions:
+ * login, logout, and loginWithId
+ * @returns React Hook with the options: {
+    loadingState,
+    login,
+    loginWithId,
+    logout,
+    user,
+  }
+ */
 export const useAuth = () => {
-  const [loadingState, setLoadingState] = useState(LOADING)
+  const [loadingState, setLoadingState] = useState(DEFAULT)
   const [loginAttempts, setLoginAttempts] = useState(0)
   const [user, setUser] = useState(false)
 
@@ -16,20 +35,18 @@ export const useAuth = () => {
       firstName,
       id,
       lastName,
-      notionId,
       partnerFirstName,
       partnerLastName,
       streetAddress,
       websiteVisits,
     }
    */
-  const setLoggedIn = (guest) => {
+  const setLoggedIn = (guest, token) => {
     const {
       email,
       firstName,
       id,
       lastName,
-      notionId,
       partnerFirstName,
       partnerLastName,
       streetAddress,
@@ -42,25 +59,35 @@ export const useAuth = () => {
       firstName,
       id,
       lastName,
-      notionId,
       partnerFirstName,
       partnerLastName,
       streetAddress,
       websiteVisits: websiteVisits + 1,
     })
+    setLocalStorage(LOCAL_STORAGE_KEYS.TOKEN, token)
   }
 
   /**
    * Uses the user's notion id to make a request to our api to update the number of times that user has visited our site.
-   * @param {string} notionId
+   * @param {string} id
    */
-  const updateVisitCount = (notionId) => {
+  const updateVisitCount = (id) => {
     fetch(`/api/${UPDATE_COUNT}`, {
       method: 'POST',
-      body: JSON.stringify({ notionId }),
+      body: JSON.stringify({ id }),
     })
   }
 
+  /**
+   * Gets the password from the user, sets the loading state to LOADING.
+   * Then logs a log in attempt, if that count is 10 or more we set loading state to LOCK
+   * which should show the locked view (handled in the component).
+   * Otherwise we will base 64 encode: the password plus a string to split on plus the hashed process.env.TOKEN_SECRET.
+   * This string will then be sent as the Authorization header looking like 'Basic AUTH_STRING' (AUTH_STRING is this 👆)
+   * If the response has user.accessToken that means the login attempt was successful!
+   * @param {string} pass the password from the user
+   * @returns
+   */
   const login = async (pass) => {
     setLoadingState(LOADING)
     // If we want to lock someone out after too many attempts?
@@ -72,56 +99,64 @@ export const useAuth = () => {
       return
     }
     try {
-      const guestListResponse = await fetch(`/api/${GUEST_LIST}`)
-      const guestList = await guestListResponse.json()
-      const isGuest = await checkPassword(pass, guestList)
-      if (!isGuest) {
-        setUser(false)
-        setLoadingState(`${ERROR} wrong password`)
-        return
-      } else {
+      const postString = new Buffer.from(
+        pass + SPLIT + hashPassword(process.env.TOKEN_SECRET),
+      ).toString('base64')
+      const loginResponse = await fetch(`/api/${LOGIN}`, {
+        method: HTTP_METHODS.POST,
+        headers: { Authorization: 'Basic ' + postString },
+      })
+      const user = await loginResponse.json()
+      if (user?.accessToken) {
         // We have a valid user! Set the state, should we set a local storage item?
-        setLoggedIn(isGuest)
+        setLoggedIn(user.guest, user.accessToken)
         // Update user's website visit count
-        updateVisitCount(isGuest.notionId)
+        updateVisitCount(user.id)
         return
       }
+      setUser(false)
+      setLoadingState(`${ERROR} wrong password`)
+      return
     } catch (error) {
       console.error('Error logging in:', error)
       setLoadingState(`${ERROR} logging in`)
     }
   }
 
+  /**
+   * For now all we are doing is removing the token from local storage, and resetting state.
+   * We could eventually send a request to the API to invalidate the token that was associated with
+   * this user.
+   */
   const logout = () => {
-    setLocalStorage(false)
+    setLocalStorage(LOCAL_STORAGE_KEYS.TOKEN, undefined)
     setUser(false)
     setLoadingState(DEFAULT)
   }
 
   /**
-   * With this we can try to log the use in with their local storage. We will make a POST request
-   * to our api with their notion id that was gotten from local storage. This will then try and find that
-   * notion id in our guest list, if it does find it, then it will log the user in.
+   * With this we can try to log the use in with their local storage JWT. We will make a POST request
+   * to our api with their JWT. The API will then try and find that user in our guest list.
+   * If it does find it, then it will log the user in, and get a new JWT.
    * @param {string} id
    * @returns
    */
-  const loginWithId = async (id) => {
+  const loginWithId = async (token) => {
     loadingState !== LOADING ? setLoadingState(LOADING) : null
     try {
       const idRequest = await fetch(`/api/${LOGIN_WITH_ID}`, {
-        method: 'POST',
-        body: JSON.stringify({ id }),
+        method: HTTP_METHODS.POST,
+        body: JSON.stringify({ token }),
       })
       const response = await idRequest.json()
-      console.log('RESPONSE:', response)
-      if (!response || !response?.guest) {
+      if (!response || !response?.guest || !response?.accessToken) {
         setUser(false)
         setLoadingState(DEFAULT)
         return
       }
 
-      setLoggedIn(response.guest)
-      updateVisitCount(response.guest.notionId)
+      setLoggedIn(response.guest, response.accessToken)
+      updateVisitCount(response.guest.id)
       return
     } catch (error) {
       console.error('Error logging in with id:', error)
@@ -129,13 +164,7 @@ export const useAuth = () => {
     }
   }
 
-  const hashPass = (pass) => {
-    const hash = hashPassword(pass)
-    console.log('hash', hash)
-  }
-
   return {
-    hashPass,
     loadingState,
     login,
     loginWithId,
@@ -143,4 +172,3 @@ export const useAuth = () => {
     user,
   }
 }
-
