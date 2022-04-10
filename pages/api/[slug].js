@@ -1,6 +1,6 @@
 import { updateSiteVisitCount } from '../../utils/notion'
 import { ENDPOINTS, HTTP_METHODS } from '../../utils/constants'
-import { logIn, logInWithId } from '../../utils/auth'
+import { logIn, logInWithJWT } from '../../utils/auth'
 const { POST } = HTTP_METHODS
 const {
   FAMILY,
@@ -17,6 +17,7 @@ const {
  */
 export default async (req, res) => {
   const { slug } = req.query
+  console.log("SLUG:", slug)
   switch (slug) {
     case FRIENDS:
       return res.json({ message: 'friends' })
@@ -25,7 +26,7 @@ export default async (req, res) => {
     case LOGIN:
       return logIn(req, res)
     case LOGIN_WITH_ID:
-      return logInWithId(req, res)
+      return logInWithJWT(req, res)
     case LOGOUT:
     // revoke token? Right now they are set to 10 hours so maybe we don't need to worry.
     case GUEST_LIST:
@@ -41,7 +42,7 @@ export default async (req, res) => {
         console.error('Error updating count:', error)
         res.status(500).json({ error: 'Error updating count' })
       }
-    // default:
-    //   return res.status(404).json({ error: `/${slug} not found` })
+    default:
+      return res.status(404).json({ error: `/${slug} not found` })
   }
 }

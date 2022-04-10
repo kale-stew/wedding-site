@@ -49,7 +49,7 @@ export const HTTP_METHODS = {
 }
 
 export const LOCAL_STORAGE_KEYS = {
-  TOKEN: 'token',
+  TOKEN: 'kylieandkylie22token',
 }
 
 /**

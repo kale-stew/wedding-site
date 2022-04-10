@@ -1,7 +1,8 @@
-import { useAuth } from '../hooks/useAuth'
+import { useAuthContext } from '../context/AuthContext'
 import { LOADING_STATE } from '../utils/constants'
+
 const LogInForm = ({ guestType }) => {
-  const { loadingState, login } = useAuth()
+  const { loadingState, login } = useAuthContext()
 
   return (
     <div>

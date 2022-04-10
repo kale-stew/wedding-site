@@ -1,7 +1,8 @@
-import { useAuth } from '../hooks/useAuth'
+import { useAuthContext } from '../context/AuthContext'
 import { hashPassword } from '../utils/auth'
+
 const ProfileComponent = ({ user, guestType }) => {
-  const { logout } = useAuth()
+  const { logout } = useAuthContext()
   return (
     <div>
       <h1>Your {guestType} Profile</h1>

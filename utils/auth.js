@@ -16,7 +16,7 @@ export const hashPassword = (pass) => {
 }
 
 /**
- * Attempts to log a user in with the password provided.
+ * Attempts to log a user in with the password provided. (Used in the server)
  * @param {object} req
  * @param {object} res
  * @returns
@@ -29,7 +29,6 @@ export const logIn = async (req, res) => {
         req.headers?.authorization.split(' ')[1],
         'base64',
       ).toString('ascii')
-      // var is nice here because we need it to bleed into the if statement, but we should also reassign the variable
 
       const guestList = await fetchAllGuests()
       for (let i = 0; i < guestList.length; i++) {
@@ -85,13 +84,13 @@ export const logIn = async (req, res) => {
 }
 
 /**
- * This will use our verified JWT to find a guest in our list. If if finds a guest corresponding to
- * the JWT it will sign a new JWT to send along with the guest (with sensitive info taken out like notionId) from the guest list
+ * (Used in the server) This will use our verified JWT to find a guest in our list. If if finds a guest corresponding to
+ * the JWT it will sign a new JWT to send along with the guest object from the guest list (with sensitive info taken out like notionId)
  * @param {object} req
  * @param {object} res response
  * @returns
  */
-export const logInWithId = async (req, res) => {
+export const logInWithJWT = async (req, res) => {
   try {
     const isTokenValid = verifyToken(JSON.parse(req.body)?.token)
     const componentLoggedIn = JSON.parse(req.body)?.component
@@ -154,7 +153,7 @@ export const logInWithId = async (req, res) => {
 }
 
 /**
- * Returns a signed JWT with a lifetime of 10 hours. Signs with the guest object and our token secret
+ * Returns a signed JWT (WE SHOULD NEVER INCLUDE THE PASSWORD OR NOTION ID) with a lifetime of 10 hours. Signs with the guest object and our token secret
  * @param {object} data in the form of {
                   email,
                   firstName,
@@ -163,8 +162,9 @@ export const logInWithId = async (req, res) => {
                   partnerFirstName,
                   partnerLastName,
                   streetAddress,
-                  websiteVisits
-                }. WE SHOULD NEVER INCLUDE THE PASSWORD OR NOTION ID
+                  websiteVisits,
+                  guestType
+                }. 
  * @returns {object} signed JWT
  */
 const signJwt = (data) =>

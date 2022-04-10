@@ -38,7 +38,6 @@ export const setLocalStorage = (key, value) => {
   if (typeof window !== 'undefined') {
     try {
       window.localStorage.setItem(key, value)
-      return true
     } catch (error) {
       console.error('Error setting local storage item:', error)
       return false

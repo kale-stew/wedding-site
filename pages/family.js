@@ -5,7 +5,7 @@ import {
   GUEST_TYPES,
 } from '../utils/constants'
 import { getLocalStorage } from '../utils/localStorage'
-import { useAuth } from '../hooks/useAuth'
+import { useAuthContext } from '../context/AuthContext'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import LogInForm from '../components/LogInForm'
@@ -14,8 +14,8 @@ import ProfileComponent from '../components/ProfileComponent'
 const Family = () => {
   const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
   const router = useRouter()
-  const { loadingState, loginWithId, shouldRedirect, setShouldRedirect, user } =
-    useAuth()
+  const { loadingState, loginWithId, shouldRedirect, setShouldRedirectState, user } =
+  useAuthContext()
 
   // Log user out if they leave the page ?
   useEffect(() => {
@@ -26,7 +26,7 @@ const Family = () => {
     }
 
     const beforeunload = () => {
-      // logout()
+      // logout(?) or do what we want before we leave the page.
     }
 
     if (typeof window !== 'undefined') {
@@ -34,7 +34,9 @@ const Family = () => {
     }
     router.events.on('routeChangeStart', routeChangeStart)
 
+    // We found an item in local storage with our key and it's not undefined/null
     if (localStorageToken) {
+      // Attempt to log in with the JWT
       loginWithId(localStorageToken, GUEST_TYPES.FAMILY)
     }
     return () => {
@@ -45,9 +47,10 @@ const Family = () => {
     }
   }, [])
 
+  // useEffect to check if we need to redirect the user based on their guest type
   useEffect(() => {
     if (shouldRedirect) {
-      setShouldRedirect(false)
+      setShouldRedirectState(false)
       router.push(`/${GUEST_TYPES.FRIENDS.toLowerCase()}`)
     }
   }, [shouldRedirect])
