@@ -1,15 +1,17 @@
 import { Client, LogLevel } from '@notionhq/client'
 import { GUEST_LIST_PROPERTIES } from './constants'
 const {
-  NUM_ADULTS,
-  NUM_CHILDREN,
   ASSOCIATION,
   CHILD_1,
   CHILD_2,
   CITY,
   EMAIL,
   FIRST_NAME,
+  HASH,
+  ID,
   LAST_NAME,
+  NUM_ADULTS,
+  NUM_CHILDREN,
   PARTNER_FIRST_NAME,
   PARTNER_LAST_NAME,
   SENT_ANNOUNCEMENT,
@@ -20,8 +22,6 @@ const {
   TOTAL_IN_PARTY,
   TYPE,
   WEBSITE_VISITS,
-  HASH,
-  ID,
 } = GUEST_LIST_PROPERTIES
 const guestSorts = [{ property: 'Last Name', direction: 'ascending' }]
 // const guestFilters = { // if we want a filter
@@ -97,20 +97,16 @@ const fmtNotionProperty = (property) => {
 const formatGuestList = (notionGuestList) => {
   return notionGuestList.map((guestItem) => {
     const returnObj = {
-      firstName: fmtNotionProperty(guestItem?.properties[FIRST_NAME]),
-      lastName: fmtNotionProperty(guestItem?.properties[LAST_NAME]),
-      partnerFirstName: fmtNotionProperty(
-        guestItem?.properties[PARTNER_FIRST_NAME],
-      ),
-      partnerLastName: fmtNotionProperty(
-        guestItem?.properties[PARTNER_LAST_NAME],
-      ),
       email: fmtNotionProperty(guestItem?.properties[EMAIL]),
-      streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
-      websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
+      firstName: fmtNotionProperty(guestItem?.properties[FIRST_NAME]),
       hash: fmtNotionProperty(guestItem?.properties[HASH]),
       id: fmtNotionProperty(guestItem?.properties[ID]),
+      lastName: fmtNotionProperty(guestItem?.properties[LAST_NAME]),
       notionId: guestItem?.id,
+      partnerFirstName: fmtNotionProperty(guestItem?.properties[PARTNER_FIRST_NAME]),
+      partnerLastName: fmtNotionProperty(guestItem?.properties[PARTNER_LAST_NAME]),
+      streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
+      websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
     }
     return returnObj
   })

@@ -2,15 +2,17 @@ export const CONTACT_ENDPOINT =
   'https://public.herotofu.com/v1/fd08ea40-afa4-11ec-b83f-8f17e10d6288'
 
 export const GUEST_LIST_PROPERTIES = {
-  NUM_ADULTS: '# of Adults?',
-  NUM_CHILDREN: '# of Children?',
   ASSOCIATION: 'Association',
   CHILD_1: 'Child 1️⃣',
   CHILD_2: 'Child 2️⃣',
   CITY: 'City',
   EMAIL: 'Email',
   FIRST_NAME: 'First Name',
+  HASH: 'hash',
+  ID: 'id',
   LAST_NAME: 'Last Name',
+  NUM_ADULTS: '# of Adults?',
+  NUM_CHILDREN: '# of Children?',
   PARTNER_FIRST_NAME: 'Partner First Name',
   PARTNER_LAST_NAME: 'Partner Last Name',
   SENT_ANNOUNCEMENT: 'Sent Announcement?',
@@ -21,29 +23,27 @@ export const GUEST_LIST_PROPERTIES = {
   TOTAL_IN_PARTY: 'Total in Party',
   TYPE: 'Type',
   WEBSITE_VISITS: 'Website Visits',
-  HASH: 'hash',
-  ID: 'id',
 }
 
 export const ENDPOINTS = {
   FAMILY: 'family',
   FRIENDS: 'friends',
-  UPDATE_COUNT: 'updatecount',
   GUEST_LIST: 'guestlist',
   LOGIN_WITH_ID: 'idlogin',
+  UPDATE_COUNT: 'updatecount',
 }
 
 export const LOADING_STATE = {
   DEFAULT: 'default',
-  LOADING: 'loading',
-  SUCCESS: 'success',
   ERROR: 'error',
+  LOADING: 'loading',
   LOCK: 'lock',
+  SUCCESS: 'success',
 }
 
 export const HTTP_METHODS = {
-  POST: 'POST',
   GET: 'GET',
+  POST: 'POST',
 }
 
 export const LOCAL_STORAGE_KEYS = {

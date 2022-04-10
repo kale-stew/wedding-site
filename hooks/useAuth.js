@@ -1,52 +1,52 @@
 import { useState } from 'react'
 import { checkPassword, hashPassword, setLocalStorage } from '../utils/auth'
-import { LOADING_STATE, ENDPOINTS } from '../utils/constants'
-const { DEFAULT, LOADING, ERROR, SUCCESS, LOCK } = LOADING_STATE
-const { UPDATE_COUNT, GUEST_LIST, LOGIN_WITH_ID } = ENDPOINTS
-const useAuth = () => {
-  const [user, setUser] = useState(false)
+import { ENDPOINTS, LOADING_STATE } from '../utils/constants'
+const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
+const { GUEST_LIST, LOGIN_WITH_ID, UPDATE_COUNT } = ENDPOINTS
+export const useAuth = () => {
   const [loadingState, setLoadingState] = useState(LOADING)
   const [loginAttempts, setLoginAttempts] = useState(0)
+  const [user, setUser] = useState(false)
 
   /**
    * Takes the guest object formatted from the notion guest list and sets that user as logged in.
    * Also will set the loading state to SUCCESS.
    * @param {Object} guest in the shape of {
+      email,
       firstName,
+      id,
       lastName,
+      notionId,
       partnerFirstName,
       partnerLastName,
-      email,
       streetAddress,
       websiteVisits,
-      id,
-      notionId,
     }
    */
   const setLoggedIn = (guest) => {
     const {
+      email,
       firstName,
+      id,
       lastName,
+      notionId,
       partnerFirstName,
       partnerLastName,
-      email,
       streetAddress,
       websiteVisits,
-      id,
-      notionId,
     } = guest
     setLoginAttempts(0)
     setLoadingState(SUCCESS)
     setUser({
+      email,
       firstName,
+      id,
       lastName,
+      notionId,
       partnerFirstName,
       partnerLastName,
-      email,
       streetAddress,
       websiteVisits: websiteVisits + 1,
-      id,
-      notionId,
     })
   }
 
@@ -135,13 +135,12 @@ const useAuth = () => {
   }
 
   return {
+    hashPass,
     loadingState,
-    user,
     login,
     loginWithId,
     logout,
-    hashPass,
+    user,
   }
 }
 
-export default useAuth

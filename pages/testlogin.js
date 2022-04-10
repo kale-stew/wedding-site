@@ -1,13 +1,14 @@
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-import { checkLocalStorage } from '../utils/auth'
-import useAuth from '../hooks/useAuth'
+import Loading from '../components/Loading'
 import { LOADING_STATE } from '../utils/constants'
+import { checkLocalStorage } from '../utils/auth'
+import { useAuth } from '../hooks/useAuth'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const TestLogin = () => {
-  const { DEFAULT, LOADING, ERROR, SUCCESS, LOCK } = LOADING_STATE
+  const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
   const router = useRouter()
-  const { login, logout, user, loadingState, hashPass, loginWithId } = useAuth()
+  const { hashPass, loadingState, login, loginWithId, logout, user } = useAuth()
 
   // Log user out if they leave the page ?
   useEffect(() => {
@@ -58,7 +59,7 @@ const TestLogin = () => {
   }
 
   if (loadingState === LOADING) {
-    return <div>Loading...</div>
+    return <Loading/>
   }
 
   if (loadingState === LOCK) {

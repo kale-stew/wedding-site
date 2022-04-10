@@ -1,7 +1,7 @@
+import { fetchAllGuests, updateSiteVisitCount } from '../../utils/notion'
 import { ENDPOINTS, HTTP_METHODS } from '../../utils/constants'
-import { updateSiteVisitCount, fetchAllGuests } from '../../utils/notion'
 const { POST } = HTTP_METHODS
-const { FAMILY, FRIENDS, UPDATE_COUNT, GUEST_LIST, LOGIN_WITH_ID } = ENDPOINTS
+const { FAMILY, FRIENDS, GUEST_LIST, LOGIN_WITH_ID, UPDATE_COUNT } = ENDPOINTS
 /**
  * Fetch calls on the front end to '/api/[slug]' will hit these routes
  */

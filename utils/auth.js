@@ -1,6 +1,7 @@
-const bcrypt = require('bcryptjs')
-const saltRounds = 10
 import { LOCAL_STORAGE_KEYS } from './constants'
+const saltRounds = 10
+const bcrypt = require('bcryptjs')
+
 export const hashPassword = (pass) => {
   const hash = bcrypt.hashSync(pass, saltRounds)
   return hash
@@ -17,15 +18,15 @@ export const checkPassword = async (pass, hashList = []) => {
   if (hashList?.length !== 0) {
     for (let i = 0; i < hashList.length; i++) {
       const {
+        email,
         firstName,
+        id,
         lastName,
+        notionId,
         partnerFirstName,
         partnerLastName,
-        email,
         streetAddress,
         websiteVisits,
-        id,
-        notionId,
       } = hashList[i]
       // Check the password, false if not matching
       const isGuest = bcrypt.compareSync(pass, hashList[i]?.hash)
@@ -35,15 +36,15 @@ export const checkPassword = async (pass, hashList = []) => {
         setLocalStorage(id)
         // Matching password hash! Let's only return the user info
         return {
+          email,
           firstName,
+          id,
           lastName,
+          notionId,
           partnerFirstName,
           partnerLastName,
-          email,
           streetAddress,
           websiteVisits,
-          id,
-          notionId,
         }
       }
     }
