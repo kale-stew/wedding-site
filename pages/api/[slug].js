@@ -41,7 +41,7 @@ export default async (req, res) => {
         console.error('Error updating count:', error)
         res.status(500).json({ error: 'Error updating count' })
       }
-    default:
-      return res.status(404).json({ error: `/${slug} not found` })
+    // default:
+    //   return res.status(404).json({ error: `/${slug} not found` })
   }
 }

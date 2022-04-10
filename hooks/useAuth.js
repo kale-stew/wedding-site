@@ -24,6 +24,7 @@ export const useAuth = () => {
   const [loadingState, setLoadingState] = useState(DEFAULT)
   const [loginAttempts, setLoginAttempts] = useState(0)
   const [user, setUser] = useState(false)
+  const [shouldRedirect, setShouldRedirect] = useState(false)
 
   /**
    * Takes the guest object formatted from the notion guest list and sets that user as logged in.
@@ -154,10 +155,14 @@ export const useAuth = () => {
         body: JSON.stringify({ token, component }),
       })
       const response = await idRequest.json()
-      if (!response || !response?.guest || !response?.accessToken) {
-        setUser(false)
-        setLoadingState(DEFAULT)
-        return
+      if (
+        response.error &&
+        response.error?.includes(
+          'Unauthorized, logging in as wrong guest type.',
+        )
+      ) {
+        console.log('in here')
+        setShouldRedirect(true)
       }
 
       if (
@@ -165,6 +170,12 @@ export const useAuth = () => {
         response.error?.includes('Unauthorized: Invalid token')
       ) {
         setLocalStorage(LOCAL_STORAGE_KEYS.TOKEN, undefined)
+        setUser(false)
+        setLoadingState(DEFAULT)
+        return
+      }
+
+      if (!response || !response?.guest || !response?.accessToken) {
         setUser(false)
         setLoadingState(DEFAULT)
         return
@@ -184,6 +195,8 @@ export const useAuth = () => {
     login,
     loginWithId,
     logout,
+    shouldRedirect,
+    setShouldRedirect,
     user,
   }
 }

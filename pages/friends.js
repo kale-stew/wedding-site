@@ -5,17 +5,17 @@ import {
   GUEST_TYPES,
 } from '../utils/constants'
 import { getLocalStorage } from '../utils/localStorage'
-import { hashPassword } from '../utils/auth'
 import { useAuth } from '../hooks/useAuth'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import FriendComponent from '../components/FriendComponent'
+import ProfileComponent from '../components/ProfileComponent'
 import LogInForm from '../components/LogInForm'
 
 const Friends = () => {
   const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
   const router = useRouter()
-  const { loadingState, loginWithId, logout, user } = useAuth()
+  const { loadingState, loginWithId, shouldRedirect, setShouldRedirect, user } =
+    useAuth()
 
   // Log user out if they leave the page ?
   useEffect(() => {
@@ -45,6 +45,14 @@ const Friends = () => {
     }
   }, [])
 
+  useEffect(() => {
+    console.log('HELLO', shouldRedirect)
+    if (shouldRedirect) {
+      setShouldRedirect(false)
+      router.push(`/${GUEST_TYPES.FAMILY.toLowerCase()}`)
+    }
+  }, [shouldRedirect])
+
   if (loadingState === DEFAULT || loadingState.includes(ERROR)) {
     return <LogInForm guestType={GUEST_TYPES.FRIENDS} />
   }
@@ -63,34 +71,7 @@ const Friends = () => {
   }
 
   if (loadingState === SUCCESS) {
-    return (
-      <div>
-        <h1>Your Friend Profile</h1>
-        <FriendComponent />
-        <ul>
-          <li>Name: {`${(user?.firstName, user?.lastName)}`}</li>
-          <li>Guest: {`${user?.partnerFirstName} ${user?.partnerLastName}`}</li>
-          <li>Email: {user?.email}</li>
-          <li>Address: {user?.streetAddress}</li>
-          <li>Times Visited: {user?.websiteVisits}</li>
-        </ul>
-        {/* form to hash a string if we want */}
-        <div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              hashPassword(e.target[0].value)
-            }}
-          >
-            String to hash:
-            <input type="text" placeholder="pass to hash" />
-          </form>
-        </div>
-        <div>
-          <button onClick={() => logout()}>Log Out</button>
-        </div>
-      </div>
-    )
+    return <ProfileComponent user={user} guestType={GUEST_TYPES.FRIENDS} />
   }
 }
 
