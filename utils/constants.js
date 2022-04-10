@@ -21,4 +21,21 @@ export const GUEST_LIST_PROPERTIES = {
   TOTAL_IN_PARTY: 'Total in Party',
   TYPE: 'Type',
   WEBSITE_VISITS: 'Website Visits',
+  HASH: 'hash',
+  ID: 'id',
+}
+
+export const ENDPOINTS = {
+  FAMILY: 'family',
+  FRIENDS: 'friends',
+  UPDATE_COUNT: 'updatecount',
+  GUEST_LIST: 'guestlist',
+}
+
+export const LOADING_STATE = {
+  DEFAULT: 'default',
+  LOADING: 'loading',
+  SUCCESS: 'success',
+  ERROR: 'error',
+  LOCK: 'lock',
 }

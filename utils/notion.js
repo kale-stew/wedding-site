@@ -20,6 +20,8 @@ const {
   TOTAL_IN_PARTY,
   TYPE,
   WEBSITE_VISITS,
+  HASH,
+  ID,
 } = GUEST_LIST_PROPERTIES
 const guestSorts = [{ property: 'Last Name', direction: 'ascending' }]
 // const guestFilters = { // if we want a filter
@@ -51,6 +53,25 @@ const getDatabaseQueryConfig = (
   return config
 }
 
+/**
+ * Specifically for the formula response from notion, as it always has a .type key
+ * @param {Object} data Notion API Formula response object
+ * @returns {Any} returns the corresponding data type of formula.type or null
+ */
+const formatFormulaType = (data) => {
+  switch (data?.formula?.type) {
+    case 'string':
+      return data?.formula?.string
+    case 'number':
+      return data?.formula?.number
+    default:
+      console.warn(
+        `👋 ${data.formula.type} doesn't evaluate to a string or number. We need to update the formatFormulaType fn → notion.js  `,
+      )
+      return null
+  }
+}
+
 const fmtNotionProperty = (property) => {
   if (property !== null) {
     switch (property.type) {
@@ -64,6 +85,8 @@ const fmtNotionProperty = (property) => {
         return property?.number ? property?.number : 0
       case 'title':
         return property?.title.length > 0 ? property.title[0].plain_text : ''
+      case 'formula':
+        return formatFormulaType(property)
       default:
         return 'Default'
     }
@@ -85,6 +108,9 @@ const formatGuestList = (notionGuestList) => {
       email: fmtNotionProperty(guestItem?.properties[EMAIL]),
       streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
       websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
+      hash: fmtNotionProperty(guestItem?.properties[HASH]),
+      id: fmtNotionProperty(guestItem?.properties[ID]),
+      notionId: guestItem?.id,
     }
     return returnObj
   })
@@ -106,4 +132,23 @@ export const fetchAllGuests = async () => {
     responseArray = [...responseArray, ...response.results]
   }
   return formatGuestList(responseArray)
+}
+
+export const updateSiteVisitCount = async (id) => {
+  const guestList = await fetchAllGuests()
+  const guestToUpdate = guestList.find((guest) => guest.notionId === id)
+  if (guestToUpdate?.notionId) {
+    const newVisitCount = 1 + guestToUpdate.websiteVisits
+    const response = await notion.pages.update({
+      page_id: guestToUpdate.notionId,
+      properties: {
+        [WEBSITE_VISITS]: {
+          number: newVisitCount,
+        },
+      },
+    })
+    return response
+  } else {
+    return false
+  }
 }
