@@ -1,14 +1,21 @@
 import Loading from '../components/Loading'
-import { LOADING_STATE, LOCAL_STORAGE_KEYS } from '../utils/constants'
-import { getLocalStorage, hashPassword } from '../utils/localStorage'
+import {
+  LOADING_STATE,
+  LOCAL_STORAGE_KEYS,
+  GUEST_TYPES,
+} from '../utils/constants'
+import { getLocalStorage } from '../utils/localStorage'
+import { hashPassword } from '../utils/auth'
 import { useAuth } from '../hooks/useAuth'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import FamilyComponent from '../components/FamilyComponent'
+import LogInForm from '../components/LogInForm'
 
-const TestLogin = () => {
+const Family = () => {
   const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
   const router = useRouter()
-  const { loadingState, login, loginWithId, logout, user } = useAuth()
+  const { loadingState, loginWithId, logout, user } = useAuth()
 
   // Log user out if they leave the page ?
   useEffect(() => {
@@ -28,7 +35,7 @@ const TestLogin = () => {
     router.events.on('routeChangeStart', routeChangeStart)
 
     if (localStorageToken) {
-      loginWithId(localStorageToken)
+      loginWithId(localStorageToken, GUEST_TYPES.FAMILY)
     }
     return () => {
       if (typeof window !== 'undefined') {
@@ -39,22 +46,7 @@ const TestLogin = () => {
   }, [])
 
   if (loadingState === DEFAULT || loadingState.includes(ERROR)) {
-    return (
-      <div>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            login(e.target[0].value)
-          }}
-        >
-          Log in:
-          <input type="password" placeholder="password" />
-        </form>
-        {loadingState.includes(ERROR) && (
-          <p>Error attempting to log in, please try again.</p>
-        )}
-      </div>
-    )
+    return <LogInForm guestType={GUEST_TYPES.FAMILY} />
   }
 
   if (loadingState === LOADING) {
@@ -73,7 +65,8 @@ const TestLogin = () => {
   if (loadingState === SUCCESS) {
     return (
       <div>
-        <h1>Your Profile</h1>
+        <h1>Your Family Profile</h1>
+        <FamilyComponent />
         <ul>
           <li>Name: {`${(user?.firstName, user?.lastName)}`}</li>
           <li>Guest: {`${user?.partnerFirstName} ${user?.partnerLastName}`}</li>
@@ -100,4 +93,4 @@ const TestLogin = () => {
   }
 }
 
-export default TestLogin
+export default Family

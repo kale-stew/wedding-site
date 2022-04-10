@@ -1,12 +1,10 @@
 import { useState } from 'react'
-import { hashPassword } from '../utils/auth'
 import { setLocalStorage } from '../utils/localStorage'
 import {
   ENDPOINTS,
   HTTP_METHODS,
   LOADING_STATE,
   LOCAL_STORAGE_KEYS,
-  SPLIT,
 } from '../utils/constants'
 const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
 const { LOGIN_WITH_ID, UPDATE_COUNT, LOGIN } = ENDPOINTS
@@ -51,6 +49,7 @@ export const useAuth = () => {
       partnerLastName,
       streetAddress,
       websiteVisits,
+      guestType,
     } = guest
     setLoginAttempts(0)
     setLoadingState(SUCCESS)
@@ -63,7 +62,9 @@ export const useAuth = () => {
       partnerLastName,
       streetAddress,
       websiteVisits: websiteVisits + 1,
+      guestType,
     })
+    // As of now Apr 10th 2022 the token is set to expire in 10 hours
     setLocalStorage(LOCAL_STORAGE_KEYS.TOKEN, token)
   }
 
@@ -88,7 +89,7 @@ export const useAuth = () => {
    * @param {string} pass the password from the user
    * @returns
    */
-  const login = async (pass) => {
+  const login = async (pass, component) => {
     setLoadingState(LOADING)
     // If we want to lock someone out after too many attempts?
     // They could just refresh the page, so we'll have to hoist state, or use local storage or something like that
@@ -99,12 +100,11 @@ export const useAuth = () => {
       return
     }
     try {
-      const postString = new Buffer.from(
-        pass + SPLIT + hashPassword(process.env.TOKEN_SECRET),
-      ).toString('base64')
+      const postString = Buffer.from(pass).toString('base64')
       const loginResponse = await fetch(`/api/${LOGIN}`, {
         method: HTTP_METHODS.POST,
         headers: { Authorization: 'Basic ' + postString },
+        body: JSON.stringify({ component }),
       })
       const user = await loginResponse.json()
       if (user?.accessToken) {
@@ -141,15 +141,30 @@ export const useAuth = () => {
    * @param {string} id
    * @returns
    */
-  const loginWithId = async (token) => {
+  const loginWithId = async (token, component) => {
     loadingState !== LOADING ? setLoadingState(LOADING) : null
+    if (token === 'undefined' || token === 'null' || !token) {
+      setUser(false)
+      setLoadingState(DEFAULT)
+      return
+    }
     try {
       const idRequest = await fetch(`/api/${LOGIN_WITH_ID}`, {
         method: HTTP_METHODS.POST,
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token, component }),
       })
       const response = await idRequest.json()
       if (!response || !response?.guest || !response?.accessToken) {
+        setUser(false)
+        setLoadingState(DEFAULT)
+        return
+      }
+
+      if (
+        response.error &&
+        response.error?.includes('Unauthorized: Invalid token')
+      ) {
+        setLocalStorage(LOCAL_STORAGE_KEYS.TOKEN, undefined)
         setUser(false)
         setLoadingState(DEFAULT)
         return

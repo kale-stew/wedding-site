@@ -88,6 +88,8 @@ const fmtNotionProperty = (property) => {
         return property?.email ? property.email : null
       case 'number':
         return property?.number ? property?.number : 0
+      case 'multi_select':
+        return property?.multi_select
       case 'title':
         return property?.title.length > 0 ? property.title[0].plain_text : ''
       case 'formula':
@@ -116,6 +118,7 @@ const formatGuestList = (notionGuestList) => {
       ),
       streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
       websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
+      guestType: fmtNotionProperty(guestItem?.properties[TYPE]),
     }
     return returnObj
   })

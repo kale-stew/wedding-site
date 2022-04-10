@@ -32,6 +32,7 @@ export const ENDPOINTS = {
   LOGIN: 'login',
   LOGIN_WITH_ID: 'idlogin',
   UPDATE_COUNT: 'updatecount',
+  LOGOUT: 'logout',
 }
 
 export const LOADING_STATE = {
@@ -55,3 +56,11 @@ export const LOCAL_STORAGE_KEYS = {
  * String we can use to string.split(SPLIT) on
  */
 export const SPLIT = ':split:'
+
+export const EXPIRE_TIME = 3600
+
+export const GUEST_TYPES = {
+  TEST: 'Test',
+  FAMILY: 'Family',
+  FRIENDS: 'Friends',
+}
