@@ -30,6 +30,7 @@ export const ENDPOINTS = {
   FRIENDS: 'friends',
   UPDATE_COUNT: 'updatecount',
   GUEST_LIST: 'guestlist',
+  LOGIN_WITH_ID: 'idlogin',
 }
 
 export const LOADING_STATE = {
@@ -38,4 +39,13 @@ export const LOADING_STATE = {
   SUCCESS: 'success',
   ERROR: 'error',
   LOCK: 'lock',
+}
+
+export const HTTP_METHODS = {
+  POST: 'POST',
+  GET: 'GET',
+}
+
+export const LOCAL_STORAGE_KEYS = {
+  IS_GUEST: 'isGuest',
 }

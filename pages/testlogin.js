@@ -1,28 +1,35 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
+import { checkLocalStorage } from '../utils/auth'
 import useAuth from '../hooks/useAuth'
 import { LOADING_STATE } from '../utils/constants'
 
 const TestLogin = () => {
   const { DEFAULT, LOADING, ERROR, SUCCESS, LOCK } = LOADING_STATE
   const router = useRouter()
-  const { login, logout, user, loadingState, hashPass } = useAuth()
+  const { login, logout, user, loadingState, hashPass, loginWithId } = useAuth()
 
-  // Log user out if they leave the page
+  // Log user out if they leave the page ?
   useEffect(() => {
+    const localStorageItem = checkLocalStorage()
+    console.log('checkLocalStorage', localStorageItem)
+
     const routeChangeStart = (url) => {
       console.log('Starting route change..', url)
     }
 
     const beforeunload = () => {
-      logout()
+      // logout()
     }
-    
+
     if (typeof window !== 'undefined') {
       window.addEventListener('beforeunload', beforeunload)
     }
     router.events.on('routeChangeStart', routeChangeStart)
 
+    if (localStorageItem) {
+      loginWithId(localStorageItem)
+    }
     return () => {
       if (typeof window !== 'undefined') {
         window.removeEventListener('beforeunload', beforeunload)
@@ -55,7 +62,12 @@ const TestLogin = () => {
   }
 
   if (loadingState === LOCK) {
-    return <div>We're sorry you've tried logging in too many times, Please try again soon</div>
+    return (
+      <div>
+        We're sorry you've tried logging in too many times, Please try again
+        soon
+      </div>
+    )
   }
 
   if (loadingState === SUCCESS) {
@@ -79,6 +91,9 @@ const TestLogin = () => {
             String to hash:
             <input type="text" placeholder="pass to hash" />
           </form>
+        </div>
+        <div>
+          <button onClick={() => logout()}>Log Out</button>
         </div>
       </div>
     )

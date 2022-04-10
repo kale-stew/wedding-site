@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs')
 const saltRounds = 10
-
+import { LOCAL_STORAGE_KEYS } from './constants'
 export const hashPassword = (pass) => {
   const hash = bcrypt.hashSync(pass, saltRounds)
   return hash
@@ -32,6 +32,7 @@ export const checkPassword = async (pass, hashList = []) => {
       if (!isGuest) {
         continue
       } else {
+        setLocalStorage(id)
         // Matching password hash! Let's only return the user info
         return {
           firstName,
@@ -52,4 +53,21 @@ export const checkPassword = async (pass, hashList = []) => {
   // No hash list, something went wrong. Let's log it and return false
   console.error("Error, hash list is empty. Can't check passwords")
   return false
+}
+
+export const checkLocalStorage = () => {
+  if (typeof window !== 'undefined') {
+    const isGuest = window.localStorage.getItem(LOCAL_STORAGE_KEYS.IS_GUEST)
+    if (!isGuest) {
+      return false
+    } else {
+      return isGuest
+    }
+  }
+}
+
+export const setLocalStorage = (id) => {
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem(LOCAL_STORAGE_KEYS.IS_GUEST, id)
+  }
 }
