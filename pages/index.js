@@ -4,6 +4,7 @@ import Footer from '../components/Footer'
 import Gallery from 'react-grid-gallery'
 import React from 'react'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
 
 const WeddingSite = () => {
   const [offset, setOffset] = useState(0)
@@ -25,17 +26,17 @@ const WeddingSite = () => {
   return (
     <>
       <section className="hero">
-        <img
+        <Image
           id="heroImg"
           className="parallax-image"
-          priority="true"
-          src={'/photos/sunrise-1.jpeg'}
+          priority={true}
+          src="/photos/sunrise-1.jpeg"
           alt="Hero Image of Kylie and Kyle saying their vows"
           style={{
-            layout: 'fill',
-            objectFit: 'cover',
             transform: `translateY(${offset * 0.25}px)`,
           }}
+          layout="fill"
+          objectFit="cover"
         />
         <div className="parallax-text">
           <h1>We Eloped!</h1>
