@@ -1,11 +1,14 @@
 import { useAuthContext } from '../context/AuthContext'
 import { hashPassword } from '../utils/auth'
 
+import styles from './ProfileComponent.module.css'
+
 const ProfileComponent = ({ user, guestType }) => {
   const { logout } = useAuthContext()
+
   return (
-    <div className="full-screen">
-      <h1 className="profile-greeting">
+    <div className={styles.profileScreen}>
+      <h1 className={styles.profileGreeting}>
         Hi {`${(user?.firstName, user?.lastName)}`}!
       </h1>
       <ul>
@@ -25,9 +28,8 @@ const ProfileComponent = ({ user, guestType }) => {
           <input type="text" placeholder="pass to hash" />
         </form>
       </div>
-      <div>
-        <button onClick={() => logout()}>Log Out</button>
-      </div>
+
+      <button onClick={() => logout()}>Log Out</button>
     </div>
   )
 }

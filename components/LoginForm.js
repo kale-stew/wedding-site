@@ -1,6 +1,8 @@
 import { useAuthContext } from '../context/AuthContext'
 import { LOADING_STATE } from '../utils/constants'
 
+import styles from './LoginForm.module.css'
+
 const LoginForm = ({ guestType }) => {
   const { loadingState, login } = useAuthContext()
   const handleSubmit = (e) => {
@@ -9,13 +11,13 @@ const LoginForm = ({ guestType }) => {
   }
 
   return (
-    <div className="full-screen">
-      <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
-        <div className="login-label">
+    <div className={styles.loginScreen}>
+      <form className={styles.loginForm} onSubmit={(e) => handleSubmit(e)}>
+        <div className={styles.loginLabel}>
           <h3>Hi {guestType},</h3>
           <h1>Please log in:</h1>
         </div>
-        <input className="login-input" type="password" placeholder="password" />
+        <input type="password" placeholder="password" />
         {/* <button>Submit</button> */}
       </form>
       {loadingState.includes(LOADING_STATE.ERROR) && (

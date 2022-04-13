@@ -4,6 +4,8 @@ const styles = `
   margin-top: 2rem;
 `
 
-const Loading = () => <PuffLoader size={150} css={styles} color="#eb7f3f" />
+const Loading = ({ color }) => (
+  <PuffLoader size={150} css={styles} color={color ? color : '#6771a0'} />
+)
 
 export default Loading

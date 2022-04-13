@@ -1,0 +1,48 @@
+.loginScreen {
+  color: white;
+  background-image: url('https://raw.githubusercontent.com/kale-stew/wedding-site/dev/public/photos/stars-1.jpeg');
+  background-position: center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8rem;
+}
+
+.loginForm input {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid var(--main-text-color);
+  margin-bottom: 1rem;
+}
+
+.loginLabel {
+  margin: 1rem auto;
+  width: 50vw;
+}
+
+.loginLabel h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.loginLabel h3 {
+  font-style: italic;
+  font-weight: 300;
+}
+
+@media (max-width: 1024px) {
+  .loginLabel h1 {
+    font-size: 2.2rem;
+  }
+}

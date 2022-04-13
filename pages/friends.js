@@ -1,8 +1,8 @@
 import Loading from '../components/Loading'
 import {
+  GUEST_TYPES,
   LOADING_STATE,
   LOCAL_STORAGE_KEYS,
-  GUEST_TYPES,
 } from '../utils/constants'
 import { getLocalStorage } from '../utils/localStorage'
 import { useAuthContext } from '../context/AuthContext'
@@ -10,6 +10,8 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ProfileComponent from '../components/ProfileComponent'
 import LoginForm from '../components/LoginForm'
+
+import loginStyles from '../components/LoginForm.module.css'
 
 const Friends = () => {
   const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
@@ -66,8 +68,8 @@ const Friends = () => {
 
   if (loadingState === LOADING) {
     return (
-      <div className="full-screen">
-        <Loading />
+      <div className={loginStyles.loginScreen}>
+        <Loading color="white" />
       </div>
     )
   }

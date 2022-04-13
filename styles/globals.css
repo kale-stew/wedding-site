@@ -7,6 +7,7 @@
   --main-text-color: #313131;
   --accent-color: #eb7f3f;
   --secondary-accent-color: #7d2100;
+  --event-accent-color: #6771a0;
 }
 
 body {
@@ -99,13 +100,7 @@ textarea {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
   align-items: center;
-}
-
-.full-screen button {
-  font-size: 0.9rem;
-  padding: 0.5rem 0.7rem;
 }
 
 .gallery-wrapper {
@@ -131,36 +126,6 @@ textarea {
   color: var(--secondary-accent-color);
 }
 
-.login-form {
-  display: flex;
-  align-self: center;
-  flex-direction: column;
-}
-
-.login-form input {
-  padding: 1rem;
-  font-size: 1.2rem;
-  border-radius: 10px;
-  border: 1px solid var(--main-text-color);
-  margin-bottom: 1rem;
-}
-
-.login-label {
-  margin: 1rem auto;
-  width: 50vw;
-}
-
-.login-label h1 {
-  font-family: 'Great Vibes', cursive;
-  font-size: 3rem;
-  margin: 0;
-}
-
-.login-label h3 {
-  font-style: italic;
-  font-weight: 300;
-}
-
 .parallax-image {
   object-fit: cover;
   height: 100%;
@@ -177,11 +142,6 @@ textarea {
   width: 100%;
   color: var(--main-text-color);
   text-align: center;
-}
-
-.profile-greeting {
-  font-size: 3rem;
-  margin-top: 0;
 }
 
 footer {

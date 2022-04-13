@@ -1,0 +1,23 @@
+.profileScreen {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileScreen button {
+  border: 2px solid var(--event-accent-color);
+  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
+}
+
+.profileScreen button:hover {
+  background-color: var(--event-accent-color);
+}
+
+.profileGreeting {
+  font-size: 3rem;
+  margin-top: 0;
+}
