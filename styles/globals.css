@@ -81,6 +81,14 @@ p {
   margin: 0 auto;
 }
 
+.full-screen {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
 .gallery-wrapper {
   max-width: 90vw;
   min-width: 80vw;
@@ -113,6 +121,41 @@ p {
   color: var(--main-text-color);
   margin: 0.5rem auto;
   width: 70%;
+}
+
+.login-form {
+  display: flex;
+  align-self: center;
+  flex-direction: column;
+}
+
+.login-form button {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
+}
+
+.login-form input {
+  padding: 1rem;
+  font-size: 1.2rem;
+  border-radius: 10px;
+  border: 1px solid var(--main-text-color);
+  margin-bottom: 1rem;
+}
+
+.login-label {
+  margin: 1rem auto;
+  width: 50vw;
+}
+
+.login-label h1 {
+  font-family: 'Great Vibes', cursive;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.login-label h3 {
+  font-style: italic;
+  font-weight: 300;
 }
 
 .parallax-image {

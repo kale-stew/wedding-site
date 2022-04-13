@@ -9,7 +9,7 @@ import { useAuthContext } from '../context/AuthContext'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ProfileComponent from '../components/ProfileComponent'
-import LogInForm from '../components/LogInForm'
+import LoginForm from '../components/LoginForm'
 
 const Friends = () => {
   const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
@@ -61,7 +61,7 @@ const Friends = () => {
   }, [shouldRedirect])
 
   if (loadingState === DEFAULT || loadingState.includes(ERROR)) {
-    return <LogInForm guestType={GUEST_TYPES.FRIENDS} />
+    return <LoginForm guestType={GUEST_TYPES.FRIENDS} />
   }
 
   if (loadingState === LOADING) {

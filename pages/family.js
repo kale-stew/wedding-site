@@ -8,7 +8,7 @@ import { getLocalStorage } from '../utils/localStorage'
 import { useAuthContext } from '../context/AuthContext'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
-import LogInForm from '../components/LogInForm'
+import LoginForm from '../components/LoginForm'
 import ProfileComponent from '../components/ProfileComponent'
 
 const Family = () => {
@@ -61,7 +61,7 @@ const Family = () => {
   }, [shouldRedirect])
 
   if (loadingState === DEFAULT || loadingState.includes(ERROR)) {
-    return <LogInForm guestType={GUEST_TYPES.FAMILY} />
+    return <LoginForm guestType={GUEST_TYPES.FAMILY} />
   }
 
   if (loadingState === LOADING) {
