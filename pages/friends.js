@@ -65,7 +65,11 @@ const Friends = () => {
   }
 
   if (loadingState === LOADING) {
-    return <Loading />
+    return (
+      <div className="full-screen">
+        <Loading />
+      </div>
+    )
   }
 
   if (loadingState === LOCK) {
