@@ -1,15 +1,17 @@
 import { Client, LogLevel } from '@notionhq/client'
 import { GUEST_LIST_PROPERTIES } from './constants'
 const {
-  NUM_ADULTS,
-  NUM_CHILDREN,
   ASSOCIATION,
   CHILD_1,
   CHILD_2,
   CITY,
   EMAIL,
   FIRST_NAME,
+  HASH,
+  ID,
   LAST_NAME,
+  NUM_ADULTS,
+  NUM_CHILDREN,
   PARTNER_FIRST_NAME,
   PARTNER_LAST_NAME,
   SENT_ANNOUNCEMENT,
@@ -51,6 +53,30 @@ const getDatabaseQueryConfig = (
   return config
 }
 
+/**
+ * Specifically for the formula response from notion, as it always has a .type key
+ * @param {Object} data Notion API Formula response object
+ * @returns {Any} returns the corresponding data type of formula.type or null
+ */
+const formatFormulaType = (data) => {
+  switch (data?.formula?.type) {
+    case 'string':
+      return data?.formula?.string
+    case 'number':
+      return data?.formula?.number
+    default:
+      console.warn(
+        `👋 ${data.formula.type} doesn't evaluate to a string or number. We need to update the formatFormulaType fn → notion.js  `,
+      )
+      return null
+  }
+}
+
+/**
+ * Formats the notion API response properties to a useable format
+ * @param {string} property
+ * @returns
+ */
 const fmtNotionProperty = (property) => {
   if (property !== null) {
     switch (property.type) {
@@ -62,8 +88,12 @@ const fmtNotionProperty = (property) => {
         return property?.email ? property.email : null
       case 'number':
         return property?.number ? property?.number : 0
+      case 'multi_select':
+        return property?.multi_select
       case 'title':
         return property?.title.length > 0 ? property.title[0].plain_text : ''
+      case 'formula':
+        return formatFormulaType(property)
       default:
         return 'Default'
     }
@@ -74,22 +104,31 @@ const fmtNotionProperty = (property) => {
 const formatGuestList = (notionGuestList) => {
   return notionGuestList.map((guestItem) => {
     const returnObj = {
+      email: fmtNotionProperty(guestItem?.properties[EMAIL]),
       firstName: fmtNotionProperty(guestItem?.properties[FIRST_NAME]),
+      hash: fmtNotionProperty(guestItem?.properties[HASH]),
+      id: fmtNotionProperty(guestItem?.properties[ID]),
       lastName: fmtNotionProperty(guestItem?.properties[LAST_NAME]),
+      notionId: guestItem?.id,
       partnerFirstName: fmtNotionProperty(
         guestItem?.properties[PARTNER_FIRST_NAME],
       ),
       partnerLastName: fmtNotionProperty(
         guestItem?.properties[PARTNER_LAST_NAME],
       ),
-      email: fmtNotionProperty(guestItem?.properties[EMAIL]),
       streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
       websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
+      guestType: fmtNotionProperty(guestItem?.properties[TYPE]),
     }
     return returnObj
   })
 }
 
+/**
+ * Gets all of our guests from the notion DB, we should always remember to remove the notionId
+ * from anything we want to return to the front end.
+ * @returns array of formatted guests
+ */
 export const fetchAllGuests = async () => {
   const config = getDatabaseQueryConfig()
   config.sorts = guestSorts
@@ -106,4 +145,28 @@ export const fetchAllGuests = async () => {
     responseArray = [...responseArray, ...response.results]
   }
   return formatGuestList(responseArray)
+}
+
+/**
+ * Updates a guest's visit count with their id property (not notion id)
+ * @param {string} id
+ * @returns
+ */
+export const updateSiteVisitCount = async (id) => {
+  const guestList = await fetchAllGuests()
+  const guestToUpdate = guestList.find((guest) => guest.id === id)
+  if (guestToUpdate?.notionId) {
+    const newVisitCount = 1 + guestToUpdate.websiteVisits
+    const response = await notion.pages.update({
+      page_id: guestToUpdate.notionId,
+      properties: {
+        [WEBSITE_VISITS]: {
+          number: newVisitCount,
+        },
+      },
+    })
+    return response
+  } else {
+    return false
+  }
 }
