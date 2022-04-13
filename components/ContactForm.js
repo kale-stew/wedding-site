@@ -67,32 +67,14 @@ const ContactForm = () => {
       target="_blank"
       className="contact-form"
     >
-      <input
-        type="text"
-        placeholder="Your Name"
-        name="name"
-        className="input-style"
-        required
-      />
-      <input
-        type="email"
-        placeholder="your@email.com"
-        name="email"
-        className="input-style"
-        required
-      />
+      <input type="text" placeholder="Your Name" name="name" required />
+      <input type="email" placeholder="your@email.com" name="email" required />
       <input
         type="text"
         placeholder="Your Mailing Address, City, State, Zip Code"
         name="address"
-        className="input-style"
       />
-      <textarea
-        placeholder="Your message"
-        name="message"
-        className="input-style"
-        required
-      />
+      <textarea placeholder="Your message" name="message" required />
       <button type="submit"> Send your message </button>
     </form>
   )

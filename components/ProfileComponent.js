@@ -4,10 +4,11 @@ import { hashPassword } from '../utils/auth'
 const ProfileComponent = ({ user, guestType }) => {
   const { logout } = useAuthContext()
   return (
-    <div>
-      <h1>Your {guestType} Profile</h1>
+    <div className="full-screen">
+      <h1 className="profile-greeting">
+        Hi {`${(user?.firstName, user?.lastName)}`}!
+      </h1>
       <ul>
-        <li>Name: {`${(user?.firstName, user?.lastName)}`}</li>
         <li>Guest: {`${user?.partnerFirstName} ${user?.partnerLastName}`}</li>
         <li>Email: {user?.email}</li>
         <li>Address: {user?.streetAddress}</li>

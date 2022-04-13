@@ -81,12 +81,31 @@ p {
   margin: 0 auto;
 }
 
+.contact-form input,
+textarea {
+  background-color: transparent;
+  padding: 0.5rem;
+  border: 1px solid var(--main-text-color);
+  border-radius: 5px;
+  font-size: 0.9rem;
+  color: var(--main-text-color);
+  margin: 0.5rem auto;
+  width: 70%;
+}
+
 .full-screen {
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-content: center;
+  align-items: center;
+}
+
+.full-screen button {
+  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
 }
 
 .gallery-wrapper {
@@ -112,26 +131,10 @@ p {
   color: var(--secondary-accent-color);
 }
 
-.input-style {
-  background-color: transparent;
-  padding: 0.5rem;
-  border: 1px solid var(--main-text-color);
-  border-radius: 5px;
-  font-size: 0.9rem;
-  color: var(--main-text-color);
-  margin: 0.5rem auto;
-  width: 70%;
-}
-
 .login-form {
   display: flex;
   align-self: center;
   flex-direction: column;
-}
-
-.login-form button {
-  font-size: 0.9rem;
-  padding: 0.5rem 0.7rem;
 }
 
 .login-form input {
@@ -174,6 +177,11 @@ p {
   width: 100%;
   color: var(--main-text-color);
   text-align: center;
+}
+
+.profile-greeting {
+  font-size: 3rem;
+  margin-top: 0;
 }
 
 footer {
