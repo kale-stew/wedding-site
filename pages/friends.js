@@ -1,5 +1,5 @@
 import { GUEST_TYPES } from '../utils/constants'
-import useUser from '../context/useUser'
+import useUser from '../hooks/useUser'
 import ProfileComponent from '../components/ProfileComponent'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import fetchJson from '../utils/fetchJson'
-import useUser from '../context/useUser'
+import useUser from '../hooks/useUser'
 import { hashPassword } from '../utils/auth'
 
 import styles from './ProfileComponent.module.css'

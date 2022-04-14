@@ -1,4 +1,4 @@
-import useUser from '../context/useUser'
+import useUser from '../hooks/useUser'
 import fetchJson from '../utils/fetchJson'
 import { FetchError } from '../utils/fetchJson'
 import loginStyles from '../components/LoginForm.module.css'
