@@ -1,16 +1,7 @@
 import { updateSiteVisitCount } from '../../utils/notion'
 import { ENDPOINTS, HTTP_METHODS } from '../../utils/constants'
-import { logIn, logInWithJWT } from '../../utils/auth'
 const { POST } = HTTP_METHODS
-const {
-  FAMILY,
-  FRIENDS,
-  GUEST_LIST,
-  LOGIN,
-  LOGOUT,
-  LOGIN_WITH_ID,
-  UPDATE_COUNT,
-} = ENDPOINTS
+const { FAMILY, FRIENDS, GUEST_LIST, UPDATE_COUNT } = ENDPOINTS
 
 /**
  * Fetch calls on the front end to '/api/[slug]' will hit these routes
@@ -23,8 +14,6 @@ export default async (req, res) => {
       return res.json({ message: 'friends' })
     case FAMILY:
       return res.json({ message: 'family' })
-    case LOGOUT:
-    // revoke token? Right now they are set to 10 hours so maybe we don't need to worry.
     case GUEST_LIST:
       return res.send({ list: [] })
     case UPDATE_COUNT:

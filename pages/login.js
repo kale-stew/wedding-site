@@ -4,6 +4,7 @@ import { FetchError } from '../utils/fetchJson'
 import loginStyles from '../components/LoginForm.module.css'
 import { useState } from 'react'
 import Loading from '../components/Loading'
+import { LOADING_STATE } from '../utils/constants'
 const Login = () => {
   const { mutateUser } = useUser({
     redirectTo: '/heythere',
@@ -11,10 +12,12 @@ const Login = () => {
   })
 
   const [loginError, setError] = useState(false)
-  const [loadingState, setLoading] = useState('default')
+  const [loadingState, setLoading] = useState(LOADING_STATE.DEFAULT)
   const handleSubmit = async (e) => {
     e.preventDefault()
-    loadingState !== 'loading' ? setLoading('loading') : null
+    loadingState !== LOADING_STATE.LOADING
+      ? setLoading(LOADING_STATE.LOADING)
+      : null
     loginError ? setError(false) : null
     const postString = Buffer.from(e.target[0].value).toString('base64')
     try {
@@ -31,14 +34,14 @@ const Login = () => {
       console.error('Error mutating user in LoginForm:', error)
       if (error instanceof FetchError) {
         setError(true)
-        setLoading('default')
+        setLoading(LOADING_STATE.DEFAULT)
       } else {
         console.error('An unexpected error happened:', error)
       }
     }
   }
 
-  if (loadingState === 'loading') {
+  if (loadingState === LOADING_STATE.LOADING) {
     return (
       <div className={loginStyles.loginScreen}>
         <Loading />
