@@ -23,10 +23,6 @@ export default async (req, res) => {
       return res.json({ message: 'friends' })
     case FAMILY:
       return res.json({ message: 'family' })
-    case LOGIN:
-      return logIn(req, res)
-    case LOGIN_WITH_ID:
-      return logInWithJWT(req, res)
     case LOGOUT:
     // revoke token? Right now they are set to 10 hours so maybe we don't need to worry.
     case GUEST_LIST:

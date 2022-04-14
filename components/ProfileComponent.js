@@ -1,10 +1,13 @@
-import { useAuthContext } from '../context/AuthContext'
+import { useRouter } from 'next/router'
+import fetchJson from '../utils/fetchJson'
+import useUser from '../context/useUser'
 import { hashPassword } from '../utils/auth'
 
 import styles from './ProfileComponent.module.css'
 
 const ProfileComponent = ({ user, guestType }) => {
-  const { logout } = useAuthContext()
+  const { mutateUser } = useUser()
+  const router = useRouter()
 
   return (
     <div className={styles.profileScreen}>
@@ -29,7 +32,15 @@ const ProfileComponent = ({ user, guestType }) => {
         </form>
       </div>
 
-      <button onClick={() => logout()}>Log Out</button>
+      <button
+        onClick={async (e) => {
+          e.preventDefault()
+          mutateUser(await fetchJson('/api/logout', { method: 'POST' }), false)
+          router.push('/login')
+        }}
+      >
+        Log Out
+      </button>
     </div>
   )
 }
