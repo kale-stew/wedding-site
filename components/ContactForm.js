@@ -15,6 +15,11 @@ const ContactForm = () => {
     }
     Object.assign(data, injectedData)
 
+    if (data.name?.includes('http') || data.email?.includes('http') || data.address?.includes('http') || data.message?.includes('http')) {
+      setStatus('We appreciate your message!')
+      return
+    }
+    
     fetch(CONTACT_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -50,10 +55,10 @@ const ContactForm = () => {
   if (status) {
     return (
       <div>
-        <h3>
+        <h1>
           <i>Thank you!</i>
-          <h1>❤️</h1>
-        </h3>
+          <div>❤️</div>
+        </h1>
         <div>{status}</div>
       </div>
     )
