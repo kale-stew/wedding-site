@@ -1,7 +1,7 @@
 import { withIronSessionApiRoute } from 'iron-session/next'
 import { sessionOptions } from '../../utils/session'
 import * as bcrypt from 'bcryptjs'
-import { fetchAllGuests, updateSiteVisitCount } from '../../utils/notion'
+import { fetchAllGuests, updateSiteVisitCount, getAllBlockData } from '../../utils/notion'
 export default withIronSessionApiRoute(loginRoute, sessionOptions)
 
 async function loginRoute(req, res) {
@@ -19,6 +19,7 @@ async function loginRoute(req, res) {
         .json({ error: 'Unauthorized, incorrect authorization type.' })
     }
     const guestList = await fetchAllGuests()
+    const eventData = await getAllBlockData()
 
     for (let i = 0; i < guestList.length; i++) {
       const isMatch = bcrypt.compareSync(auth, guestList[i].hash)
@@ -34,6 +35,8 @@ async function loginRoute(req, res) {
           websiteVisits,
           guestType,
         } = guestList[i]
+        
+        const eventDataForGuest = eventData.filter((eventDataItem) => guestType?.map((type) => type?.name).includes(eventDataItem.Type))
         const guest = {
           email,
           firstName,
@@ -44,6 +47,7 @@ async function loginRoute(req, res) {
           streetAddress,
           websiteVisits: websiteVisits + 1,
           guestType,
+          eventDataForGuest
         }
         updateSiteVisitCount(id)
         auth = undefined
