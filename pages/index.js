@@ -30,7 +30,7 @@ const WeddingSite = () => {
           id="heroImg"
           className="parallax-image"
           priority={true}
-          src="/photos/sunrise-1.jpeg"
+          src="/photos/sunrise-17.jpeg"
           alt="Hero Image of Kylie and Kyle saying their vows"
           style={{
             transform: `translateY(${offset * 0.25}px)`,
@@ -97,7 +97,7 @@ const WeddingSite = () => {
         <p>
           The wonderful{' '}
           <a href="https://larsenphoto.co/about/">Nina Larsen Reed</a> took our
-          wedding photos. The following are some of the previews:
+          wedding photos.
         </p>{' '}
         <div className="gallery-wrapper">
           <Gallery
