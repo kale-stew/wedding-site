@@ -4,35 +4,32 @@ import useUser from '../hooks/useUser'
 import { hashPassword } from '../utils/auth'
 
 import styles from './ProfileComponent.module.css'
+import { useState } from 'react'
+import { MultiSelect } from 'react-multi-select-component'
 
 const ProfileComponent = ({ user, guestType }) => {
   const { mutateUser } = useUser()
+  const [selectedGuests, setSelectedGuests] = useState([])
+
+  const plus1Options = user?.plus1?.map((plus1) => ({ label: plus1, value: plus1 }))
   const buildUserEventData = () => {
     const userEventData = user.eventDataForGuest.find(
       event_ => event_.Type === guestType,
     )
-    console.log('-->', userEventData)
+    console.log('-->user', userEventData, user)
     return (
       <div>
         <h2>Event Info:</h2>
-        <form
+        {user?.plus1 ? <form
           onSubmit={e => {
             e.preventDefault()
-            console.log('-->', e.target.favoriteOnly.value)
+            console.log('-->', selectedGuests)
           }}
         >
           <label for="guestPlusOnes">Select your plus one(s):</label>
-          <select name="guestPlusOnes" id="guestPlusOnes" multiple>
-            <option>grumpy@woodworkers.com</option>
-            <option>happy@woodworkers.com</option>
-            <option>sleepy@woodworkers.com</option>
-            <option>bashful@woodworkers.com</option>
-            <option>sneezy@woodworkers.com</option>
-            <option>dopey@woodworkers.com</option>
-            <option>doc@woodworkers.com</option>
-          </select>
+          <MultiSelect options={plus1Options} value={selectedGuests} onChange={setSelectedGuests} labelledBy="Select Guests" hasSelectAll={false} overrideStrings={{allItemsAreSelected: 'All plus one(s) are selected'}}/>
           <button type="submit">submit</button>
-        </form>
+        </form> : null}
         <ul>
           <li>Who: {userEventData.Who}</li>
           <li>What: {userEventData.What}</li>

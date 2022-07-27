@@ -109,6 +109,18 @@ const fmtNotionProperty = (property) => {
   return null
 }
 
+const formatPlus1s = (guestFromDb) => {
+  let firstPlus1 = fmtNotionProperty(guestFromDb?.properties[CHILD_1])
+  let secondPlus1 = fmtNotionProperty(guestFromDb?.properties[CHILD_2])
+  if (firstPlus1 === '' && secondPlus1 === '') {
+    return undefined
+  }
+  let builderArray = []
+  firstPlus1 !== '' && builderArray.push(firstPlus1)
+  secondPlus1 !== '' && builderArray.push(secondPlus1)
+  return builderArray
+}
+
 const formatGuestList = (notionGuestList) => {
   return notionGuestList.map((guestItem) => {
     const returnObj = {
@@ -127,6 +139,7 @@ const formatGuestList = (notionGuestList) => {
       streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
       websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
       guestType: fmtNotionProperty(guestItem?.properties[TYPE]),
+      plus1: formatPlus1s(guestItem)
     }
     return returnObj
   })

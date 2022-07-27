@@ -23,6 +23,7 @@ async function loginRoute(req, res) {
 
     for (let i = 0; i < guestList.length; i++) {
       const isMatch = bcrypt.compareSync(auth, guestList[i].hash)
+      console.log("---------------", guestList[i])
       if (isMatch) {
         const {
           email,
@@ -34,6 +35,7 @@ async function loginRoute(req, res) {
           streetAddress,
           websiteVisits,
           guestType,
+          plus1
         } = guestList[i]
         
         const eventDataForGuest = eventData.filter((eventDataItem) => guestType?.map((type) => type?.name).includes(eventDataItem.Type))
@@ -47,7 +49,8 @@ async function loginRoute(req, res) {
           streetAddress,
           websiteVisits: websiteVisits + 1,
           guestType,
-          eventDataForGuest
+          eventDataForGuest,
+          plus1
         }
         updateSiteVisitCount(id)
         auth = undefined

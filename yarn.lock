@@ -988,6 +988,11 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-multi-select-component@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/react-multi-select-component/-/react-multi-select-component-4.3.0.tgz#c971bd94b246c0d90bbc304151c5ffa00626d8c7"
+  integrity sha512-2SgFf+6kBYsPP/CFgYU8cNBt8sbQ2VjG0E4pTyvb2RkXc2KDvkfB79TQXWPiGw57cbdJRD9WBsQddbMdTrwH8g==
+
 react-prop-toggle@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/react-prop-toggle/-/react-prop-toggle-1.0.2.tgz#8b0b7e74653606b1427cfcf6c4eaa9198330568e"
