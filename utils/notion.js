@@ -94,11 +94,31 @@ const fmtNotionProperty = (property) => {
         return property?.title.length > 0 ? property.title[0].plain_text : ''
       case 'formula':
         return formatFormulaType(property)
+      case 'code':
+        try {
+          let obj = JSON.parse(property?.code.rich_text[0].plain_text)
+          obj['Type'] = property?.code.caption[0].plain_text
+          return obj
+        } catch {
+          return ''
+        }
       default:
         return 'Default'
     }
   }
   return null
+}
+
+const formatPlus1s = (guestFromDb) => {
+  let firstPlus1 = fmtNotionProperty(guestFromDb?.properties[CHILD_1])
+  let secondPlus1 = fmtNotionProperty(guestFromDb?.properties[CHILD_2])
+  if (firstPlus1 === '' && secondPlus1 === '') {
+    return undefined
+  }
+  let builderArray = []
+  firstPlus1 !== '' && builderArray.push(firstPlus1)
+  secondPlus1 !== '' && builderArray.push(secondPlus1)
+  return builderArray
 }
 
 const formatGuestList = (notionGuestList) => {
@@ -119,10 +139,42 @@ const formatGuestList = (notionGuestList) => {
       streetAddress: fmtNotionProperty(guestItem?.properties[STREET_ADDRESS]),
       websiteVisits: fmtNotionProperty(guestItem?.properties[WEBSITE_VISITS]),
       guestType: fmtNotionProperty(guestItem?.properties[TYPE]),
+      plus1: formatPlus1s(guestItem)
     }
     return returnObj
   })
 }
+
+export const getAllPageBlocks = async () => {
+  const response = await notion.blocks.children.list({ block_id: "37506cd42f14406d9c227bf35e6270d9" })
+  console.log('response:', response)
+  return response
+}
+
+export const getAllBlockData = async () => {
+  const allIds = await getAllPageBlocks()
+  let returnArray= []
+  let count = 0
+  while (count < allIds.results.length) {
+    const response = await notion.blocks.retrieve({
+      block_id: allIds.results[count].id,
+    })
+    if (response) {
+      const children = await notion.blocks.children.list({
+        block_id: response.id,
+      })
+      returnArray.push(children)
+    }
+    count++
+  }
+  return returnArray.map((block) => {
+    let results = block.results[0]
+    return fmtNotionProperty(results)
+  })
+  // let blockData = await formatBlockDataToWebsite(returnArray)
+  return returnArray
+}
+
 
 /**
  * Gets all of our guests from the notion DB, we should always remember to remove the notionId

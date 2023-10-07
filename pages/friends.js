@@ -1,91 +1,50 @@
-import Loading from '../components/Loading'
-import {
-  GUEST_TYPES,
-  LOADING_STATE,
-  LOCAL_STORAGE_KEYS,
-} from '../utils/constants'
-import { getLocalStorage } from '../utils/localStorage'
-import { useAuthContext } from '../context/AuthContext'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
+import { GUEST_TYPES } from '../utils/constants'
+import useUser from '../hooks/useUser'
 import ProfileComponent from '../components/ProfileComponent'
-import LoginForm from '../components/LoginForm'
-
+import { useRouter } from 'next/router'
+import { useEffect } from 'react'
+import fetchJson from '../utils/fetchJson'
+import { FetchError } from '../utils/fetchJson'
 import loginStyles from '../components/LoginForm.module.css'
+import Loading from '../components/Loading'
 
 const Friends = () => {
-  const { DEFAULT, ERROR, LOADING, LOCK, SUCCESS } = LOADING_STATE
   const router = useRouter()
-  const {
-    loadingState,
-    loginWithId,
-    shouldRedirect,
-    setShouldRedirectState,
-    user,
-  } = useAuthContext()
-
-  // Log user out if they leave the page ?
-  useEffect(() => {
-    const localStorageToken = getLocalStorage(LOCAL_STORAGE_KEYS.TOKEN)
-
-    const routeChangeStart = (url) => {
-      console.log('Starting route change..', url)
-    }
-
-    const beforeunload = () => {
-      // logout()
-    }
-
-    if (typeof window !== 'undefined') {
-      window.addEventListener('beforeunload', beforeunload)
-    }
-    router.events.on('routeChangeStart', routeChangeStart)
-
-    // We found an item in local storage with our key and it's not undefined/null
-    if (localStorageToken) {
-      // Attempt to log in with the JWT
-      loginWithId(localStorageToken, GUEST_TYPES.FRIENDS)
-    }
-    return () => {
-      if (typeof window !== 'undefined') {
-        window.removeEventListener('beforeunload', beforeunload)
+  const { user, mutateUser } = useUser({
+    redirectTo: '/login',
+  })
+  useEffect(async () => {
+    if (!user || !user.user) {
+      try {
+        await mutateUser(
+          await fetchJson('/api/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ page: GUEST_TYPES.FRIENDS }),
+          }),
+        )
+      } catch (error) {
+        if (error instanceof FetchError) {
+          let message = error?.toString()?.split(' ')[1]
+          if (message === 'Unauthorized') {
+            router.replace('/login')
+          }
+        } else {
+          console.error('An unexpected error happened:', error)
+        }
       }
-      router.events.off('routeChangeStart', routeChangeStart)
     }
-  }, [])
+  }, [user])
 
-  // useEffect to check if we need to redirect the user based on their guest type
-  useEffect(() => {
-    if (shouldRedirect) {
-      setShouldRedirectState(false)
-      router.push(`/${GUEST_TYPES.FAMILY.toLowerCase()}`)
-    }
-  }, [shouldRedirect])
-
-  if (loadingState === DEFAULT || loadingState.includes(ERROR)) {
-    return <LoginForm guestType={GUEST_TYPES.FRIENDS} />
-  }
-
-  if (loadingState === LOADING) {
-    return (
-      <div className={loginStyles.loginScreen}>
-        <Loading color="white" />
-      </div>
-    )
-  }
-
-  if (loadingState === LOCK) {
-    return (
-      <div>
-        We're sorry you've tried logging in too many times, Please try again
-        soon
-      </div>
-    )
-  }
-
-  if (loadingState === SUCCESS) {
-    return <ProfileComponent user={user} guestType={GUEST_TYPES.FRIENDS} />
-  }
+  return user && user?.user ? (
+    <ProfileComponent user={user?.user} guestType={GUEST_TYPES.FRIENDS} />
+  ) : (
+    <div className={loginStyles.loginScreen}>
+      <Loading />
+    </div>
+  )
 }
 
 export default Friends
